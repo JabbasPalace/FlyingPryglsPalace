@@ -20,3 +20,10 @@ After having cloned the repository to your disk you have to follow these few ste
 
 
 We are creating a 2D sidescroller called Game of Weed (title in progress). Come join our Flying Prygl Palace. 
+
+14. CREATE GAME OF WEED
+15. LAUNCH LEAGUE OF LEGENDS
+16. DUO QUEUE
+17. CLIMB LADDER
+18. DROP OUT OF UNI
+19. BECOME PRO LEAGUE OF LEGENDS PLAYER
