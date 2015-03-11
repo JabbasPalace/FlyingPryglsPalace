@@ -26,4 +26,4 @@ We are creating a 2D sidescroller called Game of Weed (title in progress). Come 
 16. DUO QUEUE
 17. CLIMB LADDER
 18. DROP OUT OF UNI
-19. BECOME PRO LEAGUE OF LEGENDS PLAYER
+19. BECOME PRO LEAGUE OF LEGENDS PLAYER LUkas
