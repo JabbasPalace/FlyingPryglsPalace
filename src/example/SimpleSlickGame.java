@@ -20,6 +20,7 @@ public class SimpleSlickGame extends BasicGame
 {
 	private Animation sprite, left, right;
 	float x = 25f, y = 25f;
+	boolean lookLeft = false;
 	public SimpleSlickGame(String gamename)
 	{
 		super(gamename);
@@ -42,28 +43,41 @@ public class SimpleSlickGame extends BasicGame
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_UP))
 		{
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
 		    sprite = right;
+			}
 		    sprite.update(i);
 		    // The lower the delta the slowest the sprite will animate.
-		    y -= i * 0.1f;
+		    y -= i * 0.5f;
 		}
 		else if (input.isKeyDown(Input.KEY_DOWN))
 		{
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
 		    sprite = right;
+			}
+		    
 		    sprite.update(i);
-		    y += i * 0.1f;
+		    y += i * 0.5f;
 		}
 		else if (input.isKeyDown(Input.KEY_LEFT))
 		{
+			lookLeft = true;
 		    sprite = left;
 		    sprite.update(i);
-		    x -= i * 0.1f;
+		    x -= i * 0.5f;
 		}
 		else if (input.isKeyDown(Input.KEY_RIGHT))
 		{
+			lookLeft = false;
 		    sprite = right;
 		    sprite.update(i);
-		    x += i * 0.1f;
+		    x += i * 0.5f;
 		}
 	}
 
@@ -80,7 +94,7 @@ public class SimpleSlickGame extends BasicGame
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
-			appgc.setDisplayMode(640, 480, false);
+			appgc.setDisplayMode(1200, 860, false);
 			appgc.start();
 			
 			
