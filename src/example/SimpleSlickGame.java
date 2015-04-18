@@ -21,7 +21,7 @@ public class SimpleSlickGame extends BasicGame
 {
 	protected Animation fireball, sprite, left, right, fire;
 	float x = 25f, y = 25f;
-	boolean lookLeft = false, spawn = false, fw = false, bw = false, up = false, down = false, isActive = false;
+	boolean lookLeft = false, spawn = false, fw = false, bw = false, up = false, down = false, drUp = false, drDown = false, dlUp = false, dlDown = false,  isActive = false;
 	float tempX, tempY;
 	
 	public SimpleSlickGame(String gamename)
@@ -49,7 +49,7 @@ public class SimpleSlickGame extends BasicGame
 		
 	
 		Input input = gc.getInput();
-		if (input.isKeyDown(Input.KEY_SPACE)) {
+		if (input.isKeyDown(Input.KEY_SPACE) && (spawn = true)) {
 		if(isActive==false){
 			tempX = x;
 			tempY = y;
@@ -62,6 +62,105 @@ public class SimpleSlickGame extends BasicGame
 			
 			
 		}
+		//Diagonal movement
+		if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_RIGHT) )
+		{
+			if(isActive==false){
+				up = false;
+				fw = false;
+				bw = false;
+				down = false;
+				drUp = true;
+				drDown = false;
+				dlUp = false;
+				dlDown = false;
+				}
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
+		    sprite = right;
+			}
+		    sprite.update(i);
+		    x += i * 0.3f;
+		    y -= i * 0.3f;
+		    
+		}
+		
+		if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_LEFT) )
+		{
+			if(isActive==false){
+				up = false;
+				fw = false;
+				bw = false;
+				down = false;
+				drUp = false;
+				drDown = false;
+				dlUp = true;
+				dlDown = false;
+				}
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
+		    sprite = left;
+			}
+		    sprite.update(i);
+		    x -= i * 0.3f;
+		    y -= i * 0.3f;
+		    
+		}
+		
+		if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_RIGHT) )
+		{
+			if(isActive==false){
+				up = false;
+				fw = false;
+				bw = false;
+				down = false;
+				drUp = false;
+				drDown = true;
+				dlUp = false;
+				dlDown = false;
+				}
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
+		    sprite = right;
+			}
+		    sprite.update(i);
+		    x += i * 0.3f;
+		    y += i * 0.3f;
+		    
+		}
+		
+		if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_LEFT) )
+		{
+			if(isActive==false){
+				up = false;
+				fw = false;
+				bw = false;
+				down = false;
+				drUp = false;
+				drDown = false;
+				dlUp = false;
+				dlDown = true;
+				}
+			if(lookLeft == true){
+				sprite = left;
+			}
+			else{
+		    sprite = left;
+			}
+		    sprite.update(i);
+		    x -= i * 0.3f;
+		    y += i * 0.3f;
+		    
+		}
+		
+		
+		
 				
 		if (input.isKeyDown(Input.KEY_UP))
 		{
@@ -78,7 +177,6 @@ public class SimpleSlickGame extends BasicGame
 		    sprite = right;
 			}
 		    sprite.update(i);
-		    // The lower the delta the slowest the sprite will animate.
 		    y -= i * 0.5f;
 		}
 		else if (input.isKeyDown(Input.KEY_DOWN))
@@ -143,6 +241,22 @@ public class SimpleSlickGame extends BasicGame
 			tempY-=2;
 			if(down == true)
 			tempY+=2;
+			if(drUp == true){
+				tempX+=2;
+			tempY-=2;
+			}
+			if(drDown == true){
+				tempX+=2;
+				tempY+=2;
+			}
+			if(dlUp == true){
+				tempX-=2;
+				tempY-=2;
+			}
+			if(dlDown == true){
+				tempX-=2;
+				tempY+=2;
+			}
 		
 			
 			
