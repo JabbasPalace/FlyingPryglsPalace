@@ -34,7 +34,7 @@ public class SimpleSlickGame extends BasicGame
 	public void init(GameContainer gc) throws SlickException {
 		Image [] movementLeft = {new Image ("wizHor.png"), new Image("wizHor2.png")};
 		Image [] movementRight = {new Image ("wiz.png"), new Image("wiz2.png")};
-		Image [] FB = {new Image("FB.png"), new Image("FB.png")};
+		Image [] FB = {new Image("FB.png"), new Image("FB1.png")};
 		int [] duration = {300, 300}; 
 		fire = new Animation(FB, duration,false);
 		left = new Animation(movementLeft,duration,false);
