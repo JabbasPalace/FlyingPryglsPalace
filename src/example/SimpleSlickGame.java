@@ -169,6 +169,10 @@ public class SimpleSlickGame extends BasicGame
 				fw = false;
 				bw = false;
 				down = false;
+				drUp = false;
+				drDown = false;
+				dlUp = false;
+				dlDown = false;
 				}
 			if(lookLeft == true){
 				sprite = left;
@@ -186,6 +190,10 @@ public class SimpleSlickGame extends BasicGame
 				fw = false;
 				bw = false;
 				down = true;
+				drUp = false;
+				drDown = false;
+				dlUp = false;
+				dlDown = false;
 				}
 			if(lookLeft == true){
 				sprite = left;
@@ -204,6 +212,10 @@ public class SimpleSlickGame extends BasicGame
 				fw = false;
 				bw = true;
 				down = false;
+				drUp = false;
+				drDown = false;
+				dlUp = false;
+				dlDown = false;
 				}
 			lookLeft = true;
 		    sprite = left;
@@ -218,6 +230,10 @@ public class SimpleSlickGame extends BasicGame
 			fw = true;
 			bw = false;
 			down = false;
+			drUp = false;
+			drDown = false;
+			dlUp = false;
+			dlDown = false;
 			}
 			lookLeft = false;
 		    sprite = right;
@@ -233,27 +249,27 @@ public class SimpleSlickGame extends BasicGame
 		
 		sprite.draw((int)x,(int)y);
 		if(spawn == true){
-			if(fw == true)
+		    if(fw == true)
 			tempX+=2;
-			if(bw == true)
+		    else if(bw == true)
 			tempX-=2;
-			if(up == true)
+		    else if(up == true)
 			tempY-=2;
-			if(down == true)
+		    else if(down == true)
 			tempY+=2;
-			if(drUp == true){
+		    else if(drUp == true){
 				tempX+=2;
 			tempY-=2;
 			}
-			if(drDown == true){
+		    else if(drDown == true){
 				tempX+=2;
 				tempY+=2;
 			}
-			if(dlUp == true){
+		    else if(dlUp == true){
 				tempX-=2;
 				tempY-=2;
 			}
-			if(dlDown == true){
+		    else if(dlDown == true){
 				tempX-=2;
 				tempY+=2;
 			}
