@@ -110,10 +110,9 @@ public class MainClass extends BasicGame  {
 			if (input.isKeyPressed(Input.KEY_SPACE)){
 				
 				//Fireball down
-				if(player1.direction[0] == 0 && player1.direction[1] == 1){
+				if(player1.direction[0] == 0 && player1.direction[1] == 1)
 				player1.fire("FBd.png","FBd1.png", player1.direction);
-				
-				}
+												
 				//Fireball right down
 				if(player1.direction[0] == 1 && player1.direction[1] == 1)
 					player1.fire("FBrd.png","FBrd1.png", player1.direction);
@@ -141,9 +140,15 @@ public class MainClass extends BasicGame  {
 				//Fireball left up
 				if(player1.direction[0] == -1 && player1.direction[1] == -1)
 					player1.fire("FBlu.png","FBlu1.png", player1.direction);
-				
+														
 				
 					}
+			if(projectiles != null){
+				for(int k = 0; k < projectiles.size();k++){
+				projectiles.get(k).proj.update(i);
+				}
+			}
+			
 			player1.xPos += player1.direction[0] * player1.movementSpeed;
 			player1.yPos += player1.direction[1] * player1.movementSpeed;
 			
@@ -162,7 +167,10 @@ public class MainClass extends BasicGame  {
 			
 			for (int i = 0; i < projectiles.size(); i++){
 				Projectile currentProj = projectiles.get(i);
-				currentProj.proj.draw(currentProj.xPos, currentProj.yPos);
+				if(player1.active == player1.playerAnim1)
+				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
+				else
+					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
 				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
 					projectiles.remove(i);
 					
