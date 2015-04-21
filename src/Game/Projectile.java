@@ -27,7 +27,7 @@ public class Projectile {
 	public int xPos;
 	public int yPos;
 	public int movementSpeed = 10;
-	public Animation proj;
+	Animation proj;
 	Projectile(int xPos, int yPos, String imgOne, String imgTwo, int dur1, int dur2, int[] direction) throws SlickException{
 		
 	this.xPos = new Integer(xPos) ;
