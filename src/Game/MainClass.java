@@ -1,11 +1,17 @@
 package Game;
 
+
+
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+
+
 
 
 
@@ -26,9 +32,12 @@ import org.newdawn.slick.Input;
 
 
 public class MainClass extends BasicGame  {
-
+	
+	
 	public MainClass(String wizardShit) throws SlickException {
 		super(wizardShit);
+		
+	
 	}
 	public static void main(String[] args)
 	{
@@ -46,23 +55,35 @@ public class MainClass extends BasicGame  {
 		{
 			Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		
+		
+		
 	}
 	
 		
 		
-        public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
+        public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+        public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
         Player player1, player2;
+        
        
         
 		@Override
 		public void init(GameContainer gc) throws SlickException {
 			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png")});
 			player2 = new Player(1200, 800, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png")});
+			
 		}
 
 		
 		@Override
 		public void update(GameContainer gc, int i) throws SlickException {
+			if(obstacles != null && obstacles.size() < 10){
+				
+				spawn("Fire.png","Fire1.png");
+				
+			}
+				
 			Input input = gc.getInput();
 			if (input.isKeyDown(Input.KEY_UP)){
 				player1.direction[1] = -1;
@@ -228,7 +249,14 @@ public class MainClass extends BasicGame  {
 				for(int k = 0; k < projectiles.size();k++){
 				projectiles.get(k).proj.update(i);
 				}
+			
 			}
+			if(obstacles != null){
+				for(int j = 0; j < obstacles.size(); j++){
+					obstacles.get(j).obst.update(i);
+				}
+			}
+			
 			
 			player1.xPos += player1.direction[0] * player1.movementSpeed;
 			player1.yPos += player1.direction[1] * player1.movementSpeed;
@@ -240,14 +268,23 @@ public class MainClass extends BasicGame  {
 				projectiles.get(j).yPos += projectiles.get(j).dir[1] * projectiles.get(j).movementSpeed;
 				}
 		}
+		public void spawn(String image1, String image2) throws SlickException{
+			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
+		}
 	
 
 		@Override
 		public void render(GameContainer gc, Graphics g) throws SlickException
 		{
+			for(int k = 0; k < obstacles.size(); k++){
+				Obstacle obsta = obstacles.get(k);
+				obsta.obst.draw(obsta.xPos,obsta.yPos);
+				
+				}
 			
 			player1.active.draw(player1.xPos,player1.yPos);
 			player2.active.draw(player2.xPos,player2.yPos);
+			
 			
 			for (int i = 0; i < projectiles.size(); i++){
 				Projectile currentProj = projectiles.get(i);
@@ -264,7 +301,13 @@ public class MainClass extends BasicGame  {
 			
 			}
 			
-			
+		public int randInt(int min, int max) {
+			  
+		    Random rand = new Random();
+		    int randomNum = rand.nextInt((max - min) + 1) + min;
+		    return randomNum;
+		}
+
 			
 			
 		
