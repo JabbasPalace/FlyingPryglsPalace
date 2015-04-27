@@ -30,8 +30,6 @@ public class Player {
 	static int movementSpeed = 2;
 	public int xPos;
 	public int yPos;
-	public int xPos2;
-	public int yPos2;
 	int[] direction = {0,0};
 	int[] lastDir = {1,0};
 	Image[] moveLeft;
