@@ -13,6 +13,8 @@ import java.awt.event.KeyListener;
 
 
 
+
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -21,10 +23,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public class Obstacle {
 public int xPos, yPos;
 int[] dur={300,300};
+public int width = 34; 
+public int height = 73;
+public boolean collides = false;
 
 Animation obst;
 
@@ -35,6 +42,8 @@ Obstacle(int xPos, int yPos, String img1, String img2, int dur1, int dur2)throws
 	this.yPos = randInt(0,800);
 	
 }
+
+
 public int randInt(int min, int max) {
 	  
     Random rand = new Random();

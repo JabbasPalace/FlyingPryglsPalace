@@ -10,6 +10,9 @@ import java.awt.event.KeyListener;
 
 
 
+
+
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -18,18 +21,28 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 
 public class Player {
 	static int movementSpeed = 2;
 	public int xPos;
 	public int yPos;
+	public int xPos2;
+	public int yPos2;
 	int[] direction = {0,0};
 	int[] lastDir = {1,0};
 	Image[] moveLeft;
 	Image[] moveRight;
 	int [] duration = {300,300};
 	Animation playerAnim1,playerAnim2, active;
+	public int health = 10;
+	public boolean collision = false;
+	int width = 101;
+	int height = 110;
+
 	
 	
 Player(int xPos, int yPos, Image[] images){
@@ -42,12 +55,17 @@ Player(int xPos, int yPos, Image[] images){
 		playerAnim1 = new Animation(moveRight, duration, false);
 		playerAnim2 = new Animation(moveLeft, duration, false);
 		active = playerAnim1;
+	
+	
 			
 }
+
+
 
 public void fire(String image1, String image2, int[] direction) throws SlickException{
 	MainClass.projectiles.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir));
 }
+
 
 
 

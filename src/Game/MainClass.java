@@ -34,6 +34,7 @@ import org.newdawn.slick.Input;
 public class MainClass extends BasicGame  {
 	
 	
+	
 	public MainClass(String wizardShit) throws SlickException {
 		super(wizardShit);
 		
@@ -89,6 +90,9 @@ public class MainClass extends BasicGame  {
 				player1.direction[1] = -1;
 				player1.lastDir[1] = -1;
 				player1.active.update(i);
+				if(player1.yPos < -30 ){
+					player1.direction[1] = 1;
+				}
 				if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
 					player1.lastDir[0] = 0;
 					
@@ -98,6 +102,9 @@ public class MainClass extends BasicGame  {
 				player1.direction[1] = 1;
 				player1.lastDir[1] = 1;
 				player1.active.update(i);
+				if(player1.yPos > 765 ){
+					player1.direction[1] = -1;
+				}
 				if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
 					player1.lastDir[0] = 0;	
 					}
@@ -110,6 +117,9 @@ public class MainClass extends BasicGame  {
 				player1.lastDir[0] = -1;
 				player1.active = player1.playerAnim2;
 				player1.active.update(i);
+				if(player1.xPos < -25 ){
+					player1.direction[0] = 1;
+				}
 				 if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
 					    player1.lastDir[1] = 0;	
 					}
@@ -120,6 +130,9 @@ public class MainClass extends BasicGame  {
 				player1.lastDir[0] = 1;
 				player1.active = player1.playerAnim1;
 				player1.active.update(i);
+				if(player1.xPos > 1110 ){
+					player1.direction[0] = -1;
+				}
 				  if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
 					    player1.lastDir[1] = 0;	
 					}
@@ -169,6 +182,9 @@ public class MainClass extends BasicGame  {
 				player2.direction[1] = -1;
 				player2.lastDir[1] = -1;
 				player2.active.update(i);
+				if(player2.yPos2 < -30 ){
+					player1.direction[1] = 1;
+				}
 				if (!input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_RIGHT)){
 					player2.lastDir[0] = 0;
 					
@@ -178,6 +194,9 @@ public class MainClass extends BasicGame  {
 				player2.direction[1] = 1;
 				player2.lastDir[1] = 1;
 				player2.active.update(i);
+				if(player2.yPos2 > 765 ){
+					player2.direction[1] = -1;
+				}
 				if (!input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_D)){
 					player2.lastDir[0] = 0;	
 					}
@@ -190,6 +209,9 @@ public class MainClass extends BasicGame  {
 				player2.lastDir[0] = -1;
 				player2.active = player2.playerAnim2;
 				player2.active.update(i);
+				if(player2.xPos2 < -25 ){
+					player2.direction[0] = 1;
+				}
 				 if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
 					    player2.lastDir[1] = 0;	
 					}
@@ -200,6 +222,9 @@ public class MainClass extends BasicGame  {
 				player2.lastDir[0] = 1;
 				player2.active = player2.playerAnim1;
 				player2.active.update(i);
+				if(player2.xPos2 > 1110 ){
+					player2.direction[0] = -1;
+				}
 				  if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
 					    player2.lastDir[1] = 0;	
 					}
@@ -260,14 +285,55 @@ public class MainClass extends BasicGame  {
 			
 			player1.xPos += player1.direction[0] * player1.movementSpeed;
 			player1.yPos += player1.direction[1] * player1.movementSpeed;
-			player2.xPos += player2.direction[0] * player2.movementSpeed;
-			player2.yPos += player2.direction[1] * player2.movementSpeed;
+			player2.xPos2 += player2.direction[0] * player2.movementSpeed;
+			player2.yPos2 += player2.direction[1] * player2.movementSpeed;
 			
 			for (int j = 0; j < projectiles.size(); j++){
 				projectiles.get(j).xPos += projectiles.get(j).dir[0] * projectiles.get(j).movementSpeed;
 				projectiles.get(j).yPos += projectiles.get(j).dir[1] * projectiles.get(j).movementSpeed;
 				}
+		
+			//Collision
+			for(int o = 0; o < obstacles.size(); o++){
+			if((obstacles.get(o).xPos + obstacles.get(o).width/2) > (player1.xPos - player1.width/2)  && (obstacles.get(o).xPos - obstacles.get(o).width/2) < (player1.xPos + player1.width/2) && (obstacles.get(o).yPos + obstacles.get(o).height/2) > (player1.yPos - player1.height/2) && (obstacles.get(o).yPos - obstacles.get(o).height/2) < (player1.yPos + player1.height/2)){
+				obstacles.get(o).collides = true;
+			}
+			else {
+				obstacles.get(o).collides = false;
+			}
+			
+			if(obstacles.get(o).collides){
+				player1.health--;
+			}
+			if((obstacles.get(o).xPos + obstacles.get(o).width/2) > (player2.xPos2 - player2.width/2)  && (obstacles.get(o).xPos - obstacles.get(o).width/2) < (player2.xPos2 + player2.width/2) && (obstacles.get(o).yPos + obstacles.get(o).height/2) > (player2.yPos2 - player2.height/2) && (obstacles.get(o).yPos - obstacles.get(o).height/2) < (player2.yPos2 + player2.height/2)){
+				obstacles.get(o).collides = true;
+			}
+			else {
+				obstacles.get(o).collides = false;
+			}
+			
+			if(obstacles.get(o).collides){
+				player2.health--;
+			}
+			}
+			
+			for(int p = 0; p < projectiles.size(); p++){
+				if((projectiles.get(p).xPos + projectiles.get(p).width/2) > (player2.xPos2 - player2.width/2)  && (projectiles.get(p).xPos - projectiles.get(p).width/2) < (player2.xPos2 + player2.width/2) && (projectiles.get(p).yPos + projectiles.get(p).height/2) > (player2.yPos2 - player2.height/2) && (projectiles.get(p).yPos - projectiles.get(p).height/2) < (player2.yPos2 + player2.height/2)){
+					projectiles.get(p).collides = true;
+				}
+				else {
+					projectiles.get(p).collides = false;
+				}
+				
+				if(projectiles.get(p).collides){
+					player2.health--;
+				}
+			}
+			
 		}
+			
+		
+		
 		public void spawn(String image1, String image2) throws SlickException{
 			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
 		}
@@ -283,7 +349,7 @@ public class MainClass extends BasicGame  {
 				}
 			
 			player1.active.draw(player1.xPos,player1.yPos);
-			player2.active.draw(player2.xPos,player2.yPos);
+			player2.active.draw(player2.xPos2,player2.yPos2);
 			
 			
 			for (int i = 0; i < projectiles.size(); i++){
@@ -296,7 +362,12 @@ public class MainClass extends BasicGame  {
 					projectiles.remove(i);
 					
 				}
+				
 			}
+			
+			g.drawString("Player 1 health: " + player1.health, 10, 25);
+			g.drawString("Player 2 health: " + player2.health, 10, 45);
+			//g.drawString( "X: " + player1.xPos + "\nY: " + player1.yPos, 50,50 );
 	
 			
 			}
