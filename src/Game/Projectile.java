@@ -26,16 +26,17 @@ public class Projectile {
 	int[] dir;
 	public int xPos;
 	public int yPos;
+	public int wepEffect;
 	public int movementSpeed = 10;
 	Animation proj;
 	public int width = 73;
 	public int height = 34;
-	int activewep = 0;
 	public boolean collides = false;
-	Projectile(int xPos, int yPos, String imgOne, String imgTwo, int dur1, int dur2, int[] direction) throws SlickException{
+	Projectile(int xPos, int yPos, String imgOne, String imgTwo, int dur1, int dur2, int[] direction, int wepEffect) throws SlickException{
 		
 	this.xPos = new Integer(xPos) ;
 	this.yPos = new Integer(yPos) ;
+	this.wepEffect = new Integer(wepEffect);
 	this.dir = new int[] {new Integer(direction[0]), new Integer(direction[1])};
 	Image[] projImg = { new Image(imgOne), new Image(imgTwo) };
 	int [] duration = {dur1, dur2}; 

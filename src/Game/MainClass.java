@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Timer;
 
 
 
@@ -162,38 +163,38 @@ public class MainClass extends BasicGame  {
 				if(player1.activewep[0] == 1){
 				//Fireball down
 				if(player1.direction[0] == 0 && player1.direction[1] == 1)
-				player1.fire("FBd.png","FBd1.png", player1.direction);
+				player1.fire("FBd.png","FBd1.png", player1.direction,1);
 												
 				//Fireball right down
 				if(player1.direction[0] == 1 && player1.direction[1] == 1)
-					player1.fire("FBrd.png","FBrd1.png", player1.direction);
+					player1.fire("FBrd.png","FBrd1.png", player1.direction,1);
 			
 				//Fireball right
 				if(player1.direction[0] == 1 && player1.direction[1] == 0)
-					player1.fire("FBr.png","FBr1.png", player1.direction);
+					player1.fire("FBr.png","FBr1.png", player1.direction,1);
 				
 				//Fireball left
 				if(player1.direction[0] == -1 && player1.direction[1] == 0)
-					player1.fire("FBl.png","FBl1.png", player1.direction);
+					player1.fire("FBl.png","FBl1.png", player1.direction,1);
 				
 				//Fireball left down
 				if(player1.direction[0] == -1 && player1.direction[1] == 1)
-					player1.fire("FBld.png","FBld1.png", player1.direction);
+					player1.fire("FBld.png","FBld1.png", player1.direction,1);
 				
 				//Fireball up
 				if(player1.direction[0] == 0 && player1.direction[1] == -1)
-					player1.fire("FBu.png","FBu1.png", player1.direction);
+					player1.fire("FBu.png","FBu1.png", player1.direction,1);
 				
 				//Fireball right up
 				if(player1.direction[0] == 1 && player1.direction[1] == -1)
-					player1.fire("FBru.png","FBru1.png", player1.direction);
+					player1.fire("FBru.png","FBru1.png", player1.direction,1);
 				
 				//Fireball left up
 				if(player1.direction[0] == -1 && player1.direction[1] == -1)
-					player1.fire("FBlu.png","FBlu1.png", player1.direction);
+					player1.fire("FBlu.png","FBlu1.png", player1.direction,1);
 				}
 				else if (player1.activewep[0] == 0){
-					player1.fire("sb.png", "sb1.png", player1.direction);
+					player1.fire("sb.png", "sb1.png", player1.direction,2);
 				}
 				
 					}
@@ -257,38 +258,38 @@ public class MainClass extends BasicGame  {
 				if(player2.activewep[0] == 1){
 				//Fireball down
 				if(player2.direction[0] == 0 && player2.direction[1] == 1)
-				player2.fire2("FBd.png","FBd1.png", player2.direction);
+				player2.fire2("FBd.png","FBd1.png", player2.direction,1);
 												
 				//Fireball right down
 				if(player2.direction[0] == 1 && player2.direction[1] == 1)
-					player2.fire2("FBrd.png","FBrd1.png", player2.direction);
+					player2.fire2("FBrd.png","FBrd1.png", player2.direction,1);
 			
 				//Fireball right
 				if(player2.direction[0] == 1 && player2.direction[1] == 0)
-					player2.fire2("FBr.png","FBr1.png", player2.direction);
+					player2.fire2("FBr.png","FBr1.png", player2.direction,1);
 				
 				//Fireball left
 				if(player2.direction[0] == -1 && player2.direction[1] == 0)
-					player2.fire2("FBl.png","FBl1.png", player2.direction);
+					player2.fire2("FBl.png","FBl1.png", player2.direction,1);
 				
 				//Fireball left down
 				if(player2.direction[0] == -1 && player2.direction[1] == 1)
-					player2.fire2("FBld.png","FBld1.png", player2.direction);
+					player2.fire2("FBld.png","FBld1.png", player2.direction,1);
 				
 				//Fireball up
 				if(player2.direction[0] == 0 && player2.direction[1] == -1)
-					player2.fire2("FBu.png","FBu1.png", player2.direction);
+					player2.fire2("FBu.png","FBu1.png", player2.direction,1);
 				
 				//Fireball right up
 				if(player2.direction[0] == 1 && player2.direction[1] == -1)
-					player2.fire2("FBru.png","FBru1.png", player2.direction);
+					player2.fire2("FBru.png","FBru1.png", player2.direction,1);
 				
 				//Fireball left up
 				if(player2.direction[0] == -1 && player2.direction[1] == -1)
-					player2.fire2("FBlu.png","FBlu1.png", player2.direction);
+					player2.fire2("FBlu.png","FBlu1.png", player2.direction,1);
 				}									
 				else if(player2.activewep[0] == 0){
-					player2.fire2("sb.png", "sb1.png", player2.direction);
+					player2.fire2("sb.png", "sb1.png", player2.direction,2);
 				}
 					
 			}
@@ -348,6 +349,8 @@ public class MainClass extends BasicGame  {
 				}
 				
 				if(projectiles.get(p).collides){
+					if(projectiles.get(p).wepEffect == 2)
+						player2.movementSpeed = 1;
 					player2.health--;
 					projectiles.remove(p);
 				}
@@ -362,6 +365,8 @@ public class MainClass extends BasicGame  {
 				}
 				
 				if(projectiles2.get(p).collides){
+					if(projectiles2.get(p).wepEffect == 2)
+						player1.movementSpeed = 1;
 					player1.health--;
 					projectiles2.remove(p);
 				}
@@ -453,12 +458,18 @@ public class MainClass extends BasicGame  {
 				}
 				
 				if(ar.get(o).collides){
+					
 					p.health--;
 					ar.remove(o);
-				}
+					p.movementSpeed = 2;
+					
+			
 				
 				}
 		}
+		}
+	
+	
 
 			
 			
