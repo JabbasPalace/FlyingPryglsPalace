@@ -74,14 +74,15 @@ public class MainClass extends BasicGame  {
         
 		@Override
 		public void init(GameContainer gc) throws SlickException {
-			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png")});
-			player2 = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png")});
+			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+			player2 = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
 			
 		}
 
 		
 		@Override
 		public void update(GameContainer gc, int i) throws SlickException {
+			
 			if(obstacles != null && obstacles.size() < 10){
 				
 				spawn("Fire.png","Fire1.png");
@@ -89,6 +90,18 @@ public class MainClass extends BasicGame  {
 			}
 				
 			Input input = gc.getInput();
+			if(input.isKeyPressed(Input.KEY_NUMPAD1))
+				player1.activewep[0] = 0;
+			
+			if(input.isKeyPressed(Input.KEY_NUMPAD2))
+				player1.activewep[0] = 1;
+			
+			if(input.isKeyPressed(Input.KEY_1))
+				player2.activewep[0] = 0;
+			
+			if(input.isKeyPressed(Input.KEY_2))
+				player2.activewep[0] = 1;
+			
 			if (input.isKeyDown(Input.KEY_UP)){
 				player1.direction[1] = -1;
 				player1.lastDir[1] = -1;
@@ -146,7 +159,7 @@ public class MainClass extends BasicGame  {
 		
 			
 			if (input.isKeyPressed(Input.KEY_RCONTROL)){
-				
+				if(player1.activewep[0] == 1){
 				//Fireball down
 				if(player1.direction[0] == 0 && player1.direction[1] == 1)
 				player1.fire("FBd.png","FBd1.png", player1.direction);
@@ -178,7 +191,10 @@ public class MainClass extends BasicGame  {
 				//Fireball left up
 				if(player1.direction[0] == -1 && player1.direction[1] == -1)
 					player1.fire("FBlu.png","FBlu1.png", player1.direction);
-														
+				}
+				else if (player1.activewep[0] == 0){
+					player1.fire("sb.png", "sb1.png", player1.direction);
+				}
 				
 					}
 			if (input.isKeyDown(Input.KEY_W)){
@@ -238,7 +254,7 @@ public class MainClass extends BasicGame  {
 		
 			
 			if (input.isKeyPressed(Input.KEY_SPACE)){
-				
+				if(player2.activewep[0] == 1){
 				//Fireball down
 				if(player2.direction[0] == 0 && player2.direction[1] == 1)
 				player2.fire2("FBd.png","FBd1.png", player2.direction);
@@ -270,9 +286,12 @@ public class MainClass extends BasicGame  {
 				//Fireball left up
 				if(player2.direction[0] == -1 && player2.direction[1] == -1)
 					player2.fire2("FBlu.png","FBlu1.png", player2.direction);
-														
-				
-					}
+				}									
+				else if(player2.activewep[0] == 0){
+					player2.fire2("sb.png", "sb1.png", player2.direction);
+				}
+					
+			}
 			if(projectiles != null){
 				for(int k = 0; k < projectiles.size();k++){
 				projectiles.get(k).proj.update(i);
@@ -290,6 +309,15 @@ public class MainClass extends BasicGame  {
 				for(int j = 0; j < obstacles.size(); j++){
 					obstacles.get(j).obst.update(i);
 				}
+			}
+			// AT DEATH
+			if(player1.health < 1){
+				player1.active = player1.death;
+				player1.active.update(i);
+			}
+			if(player2.health < 1){
+				player2.active = player2.death;
+				player2.active.update(i);
 			}
 			
 			
@@ -366,8 +394,10 @@ public class MainClass extends BasicGame  {
 				}
 			
 			
-			
+			if(player1.health > 0)
 			g.drawString("Player 1 " + player1.health + "HP", player1.xPos+10, player1.yPos-20);
+			
+			if(player2.health > 0)
 			g.drawString("Player 2 "+ player2.health + "HP", player2.xPos+10, player2.yPos-20);
 			player1.active.draw(player1.xPos,player1.yPos);
 			player2.active.draw(player2.xPos,player2.yPos);
@@ -399,10 +429,7 @@ public class MainClass extends BasicGame  {
 				
 			}
 			
-			// AT DEATH
-			if(player1.health < 1){
-				
-			}
+		
 			
 			
 	

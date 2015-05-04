@@ -30,6 +30,7 @@ public class Projectile {
 	Animation proj;
 	public int width = 73;
 	public int height = 34;
+	int activewep = 0;
 	public boolean collides = false;
 	Projectile(int xPos, int yPos, String imgOne, String imgTwo, int dur1, int dur2, int[] direction) throws SlickException{
 		

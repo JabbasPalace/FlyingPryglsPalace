@@ -34,9 +34,11 @@ public class Player {
 	int[] lastDir = {1,0};
 	Image[] moveLeft;
 	Image[] moveRight;
+	Image[] d;
 	int [] duration = {300,300};
-	Animation playerAnim1,playerAnim2, active;
+	Animation playerAnim1,playerAnim2, death, none, active;
 	public int health = 10;
+	public int[] activewep = {0,0 };
 	public boolean collision = false;
 	int width = 101;
 	int height = 110;
@@ -47,11 +49,13 @@ Player(int xPos, int yPos, Image[] images){
 	
 	moveLeft = new Image[] {images[0], images[1]};
 	moveRight = new Image[] {images[2], images[3]};
+	d = new Image[] {images[4],images[5]};
 	
 		this.xPos = xPos;
 		this.yPos = yPos;
 		playerAnim1 = new Animation(moveRight, duration, false);
 		playerAnim2 = new Animation(moveLeft, duration, false);
+		death  = new Animation(d, duration, false);
 		active = playerAnim1;
 	
 	
