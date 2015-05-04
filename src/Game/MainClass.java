@@ -19,9 +19,11 @@ import java.awt.event.KeyListener;
 
 
 
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -64,6 +66,7 @@ public class MainClass extends BasicGame  {
 		
 		
         public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+        public static ArrayList<Projectile> projectiles2 = new ArrayList<Projectile>();
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
         Player player1, player2;
         
@@ -238,35 +241,35 @@ public class MainClass extends BasicGame  {
 				
 				//Fireball down
 				if(player2.direction[0] == 0 && player2.direction[1] == 1)
-				player2.fire("FBd.png","FBd1.png", player2.direction);
+				player2.fire2("FBd.png","FBd1.png", player2.direction);
 												
 				//Fireball right down
 				if(player2.direction[0] == 1 && player2.direction[1] == 1)
-					player2.fire("FBrd.png","FBrd1.png", player2.direction);
+					player2.fire2("FBrd.png","FBrd1.png", player2.direction);
 			
 				//Fireball right
 				if(player2.direction[0] == 1 && player2.direction[1] == 0)
-					player2.fire("FBr.png","FBr1.png", player2.direction);
+					player2.fire2("FBr.png","FBr1.png", player2.direction);
 				
 				//Fireball left
 				if(player2.direction[0] == -1 && player2.direction[1] == 0)
-					player2.fire("FBl.png","FBl1.png", player2.direction);
+					player2.fire2("FBl.png","FBl1.png", player2.direction);
 				
 				//Fireball left down
 				if(player2.direction[0] == -1 && player2.direction[1] == 1)
-					player2.fire("FBld.png","FBld1.png", player2.direction);
+					player2.fire2("FBld.png","FBld1.png", player2.direction);
 				
 				//Fireball up
 				if(player2.direction[0] == 0 && player2.direction[1] == -1)
-					player2.fire("FBu.png","FBu1.png", player2.direction);
+					player2.fire2("FBu.png","FBu1.png", player2.direction);
 				
 				//Fireball right up
 				if(player2.direction[0] == 1 && player2.direction[1] == -1)
-					player2.fire("FBru.png","FBru1.png", player2.direction);
+					player2.fire2("FBru.png","FBru1.png", player2.direction);
 				
 				//Fireball left up
 				if(player2.direction[0] == -1 && player2.direction[1] == -1)
-					player2.fire("FBlu.png","FBlu1.png", player2.direction);
+					player2.fire2("FBlu.png","FBlu1.png", player2.direction);
 														
 				
 					}
@@ -274,8 +277,15 @@ public class MainClass extends BasicGame  {
 				for(int k = 0; k < projectiles.size();k++){
 				projectiles.get(k).proj.update(i);
 				}
-			
 			}
+				
+			if(projectiles2 != null){
+				for(int k = 0; k < projectiles2.size();k++){
+				projectiles2.get(k).proj.update(i);
+				}
+			}
+			
+			
 			if(obstacles != null){
 				for(int j = 0; j < obstacles.size(); j++){
 					obstacles.get(j).obst.update(i);
@@ -292,30 +302,14 @@ public class MainClass extends BasicGame  {
 				projectiles.get(j).xPos += projectiles.get(j).dir[0] * projectiles.get(j).movementSpeed;
 				projectiles.get(j).yPos += projectiles.get(j).dir[1] * projectiles.get(j).movementSpeed;
 				}
+			for (int j = 0; j < projectiles2.size(); j++){
+				projectiles2.get(j).xPos += projectiles2.get(j).dir[0] * projectiles2.get(j).movementSpeed;
+				projectiles2.get(j).yPos += projectiles2.get(j).dir[1] * projectiles2.get(j).movementSpeed;
+				}
 		
 			//Collision
-			for(int o = 0; o < obstacles.size(); o++){
-			if((obstacles.get(o).xPos + obstacles.get(o).width/2) > (player1.xPos - player1.width/2)  && (obstacles.get(o).xPos - obstacles.get(o).width/2) < (player1.xPos + player1.width/2) && (obstacles.get(o).yPos + obstacles.get(o).height/2) > (player1.yPos - player1.height/2) && (obstacles.get(o).yPos - obstacles.get(o).height/2) < (player1.yPos + player1.height/2)){
-				obstacles.get(o).collides = true;
-			}
-			else {
-				obstacles.get(o).collides = false;
-			}
+		
 			
-			if(obstacles.get(o).collides){
-				player1.health--;
-			}
-			if((obstacles.get(o).xPos + obstacles.get(o).width/2) > (player2.xPos - player2.width/2)  && (obstacles.get(o).xPos - obstacles.get(o).width/2) < (player2.xPos + player2.width/2) && (obstacles.get(o).yPos + obstacles.get(o).height/2) > (player2.yPos - player2.height/2) && (obstacles.get(o).yPos - obstacles.get(o).height/2) < (player2.yPos + player2.height/2)){
-				obstacles.get(o).collides = true;
-			}
-			else {
-				obstacles.get(o).collides = false;
-			}
-			
-			if(obstacles.get(o).collides){
-				player2.health--;
-			}
-			}
 			
 			for(int p = 0; p < projectiles.size(); p++){
 				if((projectiles.get(p).xPos + projectiles.get(p).width/2) > (player2.xPos - player2.width/2)  && (projectiles.get(p).xPos - projectiles.get(p).width/2) < (player2.xPos + player2.width/2) && (projectiles.get(p).yPos + projectiles.get(p).height/2) > (player2.yPos - player2.height/2) && (projectiles.get(p).yPos - projectiles.get(p).height/2) < (player2.yPos + player2.height/2)){
@@ -327,11 +321,29 @@ public class MainClass extends BasicGame  {
 				
 				if(projectiles.get(p).collides){
 					player2.health--;
+					projectiles.remove(p);
 				}
 			}
 			
+			for(int p = 0; p < projectiles2.size(); p++){
+				if((projectiles2.get(p).xPos + projectiles2.get(p).width/2) > (player1.xPos - player1.width/2)  && (projectiles2.get(p).xPos - projectiles2.get(p).width/2) < (player1.xPos + player1.width/2) && (projectiles2.get(p).yPos + projectiles2.get(p).height/2) > (player1.yPos - player1.height/2) && (projectiles2.get(p).yPos - projectiles2.get(p).height/2) < (player1.yPos + player1.height/2)){
+					projectiles2.get(p).collides = true;
+				}
+				else {
+					projectiles2.get(p).collides = false;
+				}
+				
+				if(projectiles2.get(p).collides){
+					player1.health--;
+					projectiles2.remove(p);
+				}
+			}
+			
+			
+			
 		}
 			
+		
 		
 		
 		public void spawn(String image1, String image2) throws SlickException{
@@ -342,11 +354,19 @@ public class MainClass extends BasicGame  {
 		@Override
 		public void render(GameContainer gc, Graphics g) throws SlickException
 		{
-			for(int k = 0; k < obstacles.size(); k++){
+			
+			collision(player1, obstacles);
+			collision(player2, obstacles);
+			
+			for(int k = 0; k < obstacles.size()-1; k++){
 				Obstacle obsta = obstacles.get(k);
+				if(obsta.xPos != player1.xPos && obsta.yPos != player1.yPos && obsta.xPos != player2.xPos && obsta.yPos != player2.yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
 				}
+			
+			
+			
 			g.drawString("Player 1 " + player1.health + "HP", player1.xPos+10, player1.yPos-20);
 			g.drawString("Player 2 "+ player2.health + "HP", player2.xPos+10, player2.yPos-20);
 			player1.active.draw(player1.xPos,player1.yPos);
@@ -355,7 +375,7 @@ public class MainClass extends BasicGame  {
 			
 			for (int i = 0; i < projectiles.size(); i++){
 				Projectile currentProj = projectiles.get(i);
-				if(player1.active == player1.playerAnim1 || player2.active == player2.playerAnim1)
+				if(player1.active == player1.playerAnim1)
 				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
 				else
 					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
@@ -363,6 +383,24 @@ public class MainClass extends BasicGame  {
 					projectiles.remove(i);
 					
 				}
+				
+			}
+			
+			for (int i = 0; i < projectiles2.size(); i++){
+				Projectile currentProj = projectiles2.get(i);
+				if(player2.active == player2.playerAnim1)
+				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
+				else
+					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
+				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
+					projectiles2.remove(i);
+					
+				}
+				
+			}
+			
+			// AT DEATH
+			if(player1.health < 1){
 				
 			}
 			
@@ -376,6 +414,23 @@ public class MainClass extends BasicGame  {
 		    Random rand = new Random();
 		    int randomNum = rand.nextInt((max - min) + 1) + min;
 		    return randomNum;
+		}
+		
+		public void collision (Player p, ArrayList<Obstacle> ar){
+			for(int o = 0; o < ar.size(); o++){
+				if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
+					ar.get(o).collides = true;
+				}
+				else {
+					ar.get(o).collides = false;
+				}
+				
+				if(ar.get(o).collides){
+					p.health--;
+					ar.remove(o);
+				}
+				
+				}
 		}
 
 			

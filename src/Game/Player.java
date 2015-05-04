@@ -64,6 +64,10 @@ public void fire(String image1, String image2, int[] direction) throws SlickExce
 	MainClass.projectiles.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir));
 }
 
+public void fire2(String image1, String image2, int[] direction) throws SlickException{
+	MainClass.projectiles2.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir));
+}
+
 
 
 
