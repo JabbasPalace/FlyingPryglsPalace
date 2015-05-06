@@ -37,7 +37,7 @@ import org.newdawn.slick.Input;
 public class MainClass extends BasicGame  {
 	
 	
-	
+	static long lastTime;
 	public MainClass(String wizardShit) throws SlickException {
 		super(wizardShit);
 		
@@ -45,6 +45,7 @@ public class MainClass extends BasicGame  {
 	}
 	public static void main(String[] args)
 	{
+		
 		try
 		{
 			AppGameContainer appgc;
@@ -84,6 +85,7 @@ public class MainClass extends BasicGame  {
 		@Override
 		public void update(GameContainer gc, int i) throws SlickException {
 			
+			lastTime = System.currentTimeMillis();
 			if(obstacles != null && obstacles.size() < 10){
 				
 				spawn("Fire.png","Fire1.png");
@@ -336,41 +338,7 @@ public class MainClass extends BasicGame  {
 				projectiles2.get(j).yPos += projectiles2.get(j).dir[1] * projectiles2.get(j).movementSpeed;
 				}
 		
-			//Collision
-		
 			
-			
-			for(int p = 0; p < projectiles.size(); p++){
-				if((projectiles.get(p).xPos + projectiles.get(p).width/2) > (player2.xPos - player2.width/2)  && (projectiles.get(p).xPos - projectiles.get(p).width/2) < (player2.xPos + player2.width/2) && (projectiles.get(p).yPos + projectiles.get(p).height/2) > (player2.yPos - player2.height/2) && (projectiles.get(p).yPos - projectiles.get(p).height/2) < (player2.yPos + player2.height/2)){
-					projectiles.get(p).collides = true;
-				}
-				else {
-					projectiles.get(p).collides = false;
-				}
-				
-				if(projectiles.get(p).collides){
-					if(projectiles.get(p).wepEffect == 2)
-						player2.movementSpeed = 1;
-					player2.health--;
-					projectiles.remove(p);
-				}
-			}
-			
-			for(int p = 0; p < projectiles2.size(); p++){
-				if((projectiles2.get(p).xPos + projectiles2.get(p).width/2) > (player1.xPos - player1.width/2)  && (projectiles2.get(p).xPos - projectiles2.get(p).width/2) < (player1.xPos + player1.width/2) && (projectiles2.get(p).yPos + projectiles2.get(p).height/2) > (player1.yPos - player1.height/2) && (projectiles2.get(p).yPos - projectiles2.get(p).height/2) < (player1.yPos + player1.height/2)){
-					projectiles2.get(p).collides = true;
-				}
-				else {
-					projectiles2.get(p).collides = false;
-				}
-				
-				if(projectiles2.get(p).collides){
-					if(projectiles2.get(p).wepEffect == 2)
-						player1.movementSpeed = 1;
-					player1.health--;
-					projectiles2.remove(p);
-				}
-			}
 			
 			
 			
@@ -437,7 +405,7 @@ public class MainClass extends BasicGame  {
 		
 			
 			
-	
+
 			
 			}
 			
@@ -449,23 +417,71 @@ public class MainClass extends BasicGame  {
 		}
 		
 		public void collision (Player p, ArrayList<Obstacle> ar){
+			
+			// OBSTACLES COLLISION
 			for(int o = 0; o < ar.size(); o++){
 				if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 					ar.get(o).collides = true;
+					p.movementSpeed = 2;
+					p.lifeloss();
+					
 				}
 				else {
 					ar.get(o).collides = false;
+					
+					
+					
+				}
+				//Collision
+				
+				
+				
+				for(int q = 0; q < projectiles.size(); q++){
+					if((projectiles.get(q).xPos + projectiles.get(q).width/2) > (player2.xPos - player2.width/2)  && (projectiles.get(q).xPos - projectiles.get(q).width/2) < (player2.xPos + player2.width/2) && (projectiles.get(q).yPos + projectiles.get(q).height/2) > (player2.yPos - player2.height/2) && (projectiles.get(q).yPos - projectiles.get(q).height/2) < (player2.yPos + player2.height/2)){
+						projectiles.get(q).collides = true;
+					}
+					else {
+						projectiles.get(q).collides = false;
+					}
+					
+					if(projectiles.get(q).collides){
+						if(projectiles.get(q).wepEffect == 2){
+							player2.movementSpeed = 1;
+						player2.health-=5;
+						}
+						
+					else if(projectiles.get(q).wepEffect == 1){
+						player2.health -= 10;
+					
+					}
+						projectiles.remove(q);
+				}
 				}
 				
-				if(ar.get(o).collides){
+				for(int d = 0; d < projectiles2.size(); d++){
+					if((projectiles2.get(d).xPos + projectiles2.get(d).width/2) > (player1.xPos - player1.width/2)  && (projectiles2.get(d).xPos - projectiles2.get(d).width/2) < (player1.xPos + player1.width/2) && (projectiles2.get(d).yPos + projectiles2.get(d).height/2) > (player1.yPos - player1.height/2) && (projectiles2.get(d).yPos - projectiles2.get(d).height/2) < (player1.yPos + player1.height/2)){
+						projectiles2.get(d).collides = true;
+					}
+					else {
+						projectiles2.get(d).collides = false;
+					}
 					
-					p.health--;
-					ar.remove(o);
-					p.movementSpeed = 2;
+					if(projectiles2.get(d).collides){
+						if(projectiles2.get(d).wepEffect == 2){
+							player1.movementSpeed = 1;
+						player1.health -= 5;
+						
 					
-			
-				
+						}else if(projectiles2.get(d).wepEffect == 1){
+						player1.health -= 10;
+						
+						
+					}
+						projectiles2.remove(d);
 				}
+				}
+				
+				
 		}
 		}
 	

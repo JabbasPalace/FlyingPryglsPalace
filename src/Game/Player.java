@@ -27,7 +27,7 @@ import org.newdawn.slick.geom.Transform;
 
 
 public class Player {
-	static int movementSpeed = 2;
+	public int movementSpeed = 2;
 	public int xPos;
 	public int yPos;
 	int[] direction = {0,0};
@@ -37,11 +37,11 @@ public class Player {
 	Image[] d;
 	int [] duration = {300,300};
 	Animation playerAnim1,playerAnim2, death, none, active;
-	public int health = 10;
+	public int health = 100;
 	public int[] activewep = {0,0 };
 	public boolean collision = false;
-	int width = 101;
-	int height = 110;
+	int width = 60;
+	int height = 80;
 
 	
 	
@@ -60,6 +60,15 @@ Player(int xPos, int yPos, Image[] images){
 	
 	
 			
+}
+
+public void lifeloss(){
+long Ntime = System.currentTimeMillis();
+if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
+health --;
+
+}
+
 }
 
 
