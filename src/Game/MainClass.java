@@ -81,7 +81,7 @@ public class MainClass extends BasicGame  {
 		@Override
 		public void init(GameContainer gc) throws SlickException {
 
-			//Initial x and y positions and Sprites for animations assigned to playersasd
+			//Initial x and y positions and Sprites for animations assigned to players
 			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 			players[1] = new Player(1100, 730, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
 			BG = new Image("desertBG.png");
