@@ -40,6 +40,8 @@ public class MainClass extends BasicGame  {
 	
 	
 	static long lastTime;
+	public static int width = 1200;
+	public static int height = 860;
 	public MainClass(String wizardShit) throws SlickException {
 		super(wizardShit);
 		
@@ -52,7 +54,7 @@ public class MainClass extends BasicGame  {
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new MainClass("Wizard Game"));
-			appgc.setDisplayMode(1200, 860, false);
+			appgc.setDisplayMode(width, height, false);
 			appgc.setVSync(true);
 			appgc.setTargetFrameRate(60);
 			appgc.start();
@@ -110,13 +112,22 @@ public class MainClass extends BasicGame  {
 				
 			}
 			
+			//Spawning powerup
 			if(powerup.size() < 2){
 				
 				
 				spawn2("PowerUp.png", "PowerUp.png");
 			}
+			
+	for (int k = 0; k < players.length; k++){
 				
+				collision(players[k], obstacles,projectiles, i); // Calling collision check for players, obstacles and projectiles every frame.
+				Pcollision(players[k],powerup);// Calling collision check for players and powerup every frame.
+
+			}
 			Input input = gc.getInput();
+			
+			//Switch projectile
 			if(players[0].alive){
 			if(input.isKeyPressed(Input.KEY_NUMPAD1))
 				players[0].activewep[0] = 0;
@@ -130,6 +141,7 @@ public class MainClass extends BasicGame  {
 			if(input.isKeyPressed(Input.KEY_2))
 				players[1].activewep[0] = 1;
 			
+			//Player 1 move up
 			if (input.isKeyDown(Input.KEY_UP)){
 				players[0].direction[1] = -1;
 				players[0].lastDir[1] = -1;
@@ -142,6 +154,7 @@ public class MainClass extends BasicGame  {
 					
 					}
 			}
+			//Player 1 move down
 			if (input.isKeyDown(Input.KEY_DOWN)){
 				players[0].direction[1] = 1;
 				players[0].lastDir[1] = 1;
@@ -156,6 +169,7 @@ public class MainClass extends BasicGame  {
 	        if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
 			    players[0].direction[1] = 0;	
 			}
+	      //Player 1 move left
 			if (input.isKeyDown(Input.KEY_LEFT)){
 				players[0].direction[0] = -1;
 				players[0].lastDir[0] = -1;
@@ -169,6 +183,7 @@ public class MainClass extends BasicGame  {
 					}
 				
 			}
+			//Player 1 move right
 			if (input.isKeyDown(Input.KEY_RIGHT)){
 				players[0].direction[0] = 1;
 				players[0].lastDir[0] = 1;
@@ -185,7 +200,7 @@ public class MainClass extends BasicGame  {
 				players[0].direction[0] = 0;	
 				}
 		
-			
+			//Player 1 fire projectile
 			if (input.isKeyPressed(Input.KEY_RCONTROL)){
 				if(players[0].activewep[0] == 1){
 				//Fireball down
@@ -227,6 +242,7 @@ public class MainClass extends BasicGame  {
 					}
 			}
 			if(players[1].alive){
+				//Player 2 move up
 			if (input.isKeyDown(Input.KEY_W)){
 				players[1].direction[1] = -1;
 				players[1].lastDir[1] = -1;
@@ -239,6 +255,7 @@ public class MainClass extends BasicGame  {
 					
 					}
 			}
+			//Player 2 move down
 			if (input.isKeyDown(Input.KEY_S)){
 				players[1].direction[1] = 1;
 				players[1].lastDir[1] = 1;
@@ -253,6 +270,7 @@ public class MainClass extends BasicGame  {
 	        if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
 			    players[1].direction[1] = 0;	
 			}
+	      //Player 2 move left
 			if (input.isKeyDown(Input.KEY_A)){
 				players[1].direction[0] = -1;
 				players[1].lastDir[0] = -1;
@@ -266,6 +284,7 @@ public class MainClass extends BasicGame  {
 					}
 				
 			}
+			//Player 2 move right
 			if (input.isKeyDown(Input.KEY_D)){
 				players[1].direction[0] = 1;
 				players[1].lastDir[0] = 1;
@@ -282,7 +301,7 @@ public class MainClass extends BasicGame  {
 				players[1].direction[0] = 0;	
 				}
 		
-			
+			//Player 2 fire projectile
 			if (input.isKeyPressed(Input.KEY_SPACE)){
 				if(players[1].activewep[0] == 1){
 				//Fireball down
@@ -323,19 +342,20 @@ public class MainClass extends BasicGame  {
 					
 			}
 			}
+			//Update projectile animation player 1
 			if(projectiles != null){
 				for(int k = 0; k < projectiles.size();k++){
 				projectiles.get(k).proj.update(i);
 				}
 			}
-				
+			//Update projectile animation player 2	
 			if(projectiles2 != null){
 				for(int k = 0; k < projectiles2.size();k++){
 				projectiles2.get(k).proj.update(i);
 				}
 			}
 			
-			
+			//Update obstacle animation
 			if(obstacles != null){
 				for(int j = 0; j < obstacles.size(); j++){
 					obstacles.get(j).obst.update(i);
@@ -363,10 +383,14 @@ public class MainClass extends BasicGame  {
 				}
 		
 			
+			//If either player is dead, press enter to restart the game. 
 			if(!players[0].alive || !players[1].alive){
 				
 			
 				if(input.isKeyPressed(Input.KEY_ENTER)){
+					for(int l = 0; l < obstacles.size(); l++)
+						obstacles.remove(l);
+						powerup.remove(0);
 					init(gc);
 					
 					
@@ -381,13 +405,13 @@ public class MainClass extends BasicGame  {
 		
 		public void spawn(String image1, String image2) throws SlickException{
 			
-			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
+			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,860), image1, image2, 300,300));
 			// Adding obstacle objects to ArrayList
 			
 		}
 		
 		public void spawn2(String image1, String image2) throws SlickException{
-			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
+			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,860), image1, image2, 300, 300));
 
 			// Adding powerup objects to ArrayList
 
@@ -400,16 +424,11 @@ public class MainClass extends BasicGame  {
 			
 			BG.draw(0,30);
 			
-			for (int i = 0; i < players.length; i++){
-				
-				collision(players[i], obstacles,projectiles); // Calling collision check for players, obstacles and projectiles every frame.
-				Pcollision(players[i],powerup);// Calling collision check for players and powerup every frame.
-
-			}
+		
 			
 			for(int k = 0; k < obstacles.size(); k++){
 				Obstacle obsta = obstacles.get(k);
-				if(obsta.yPos > 100 && obsta.yPos < 750 && obsta.xPos > 50 && obsta.xPos < 1100 && obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
+				if(obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
 				}
@@ -437,7 +456,7 @@ public class MainClass extends BasicGame  {
 				currentProj.proj.draw(currentProj.xPos, currentProj.yPos); // Renders projectiles at the xPos and yPos of the player shooting
 				else
 					currentProj.proj.draw(currentProj.xPos, currentProj.yPos);
-				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
+				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 860 || currentProj.yPos < 0){
 					projectiles.remove(i);// Removes projectiles when they reach the frame width and/or height
 					
 				}
@@ -450,7 +469,7 @@ public class MainClass extends BasicGame  {
 				currentProj.proj.draw(currentProj.xPos, currentProj.yPos); // Renders projectiles at the xPos and yPos of the player shooting
 				else
 					currentProj.proj.draw(currentProj.xPos, currentProj.yPos);
-				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
+				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 860 || currentProj.yPos < 0){
 					projectiles2.remove(i); // Removes projectiles when they reach the frame width and/or height
 					
 				}
@@ -489,7 +508,7 @@ public class MainClass extends BasicGame  {
 		    return 0;
 		}
 		
-		public void collision (Player p, ArrayList<Obstacle> ar, ArrayList<Projectile> arr){
+		public void collision (Player p, ArrayList<Obstacle> ar, ArrayList<Projectile> arr, int delta){
 			
 			// OBSTACLES COLLISION
 			for(int o = 0; o < ar.size(); o++){
@@ -497,7 +516,8 @@ public class MainClass extends BasicGame  {
 					ar.get(o).collides = true;
 					p.movementSpeed = 4; // Movement speed is restored to default (Enable player to remove Weapon effect 2 slow)
 					//p.lifeloss(); // Run lifeloss method from player class
-					p.health -=1;
+				if(delta % 6 == 0)
+					p.health -=5;
 				}
 				else {
 					ar.get(o).collides = false;
@@ -524,7 +544,8 @@ public class MainClass extends BasicGame  {
 										
 					if(projectiles.get(q).collides){
 						if(projectiles.get(q).wepEffect == 2){ // Icebolt slows the player hit, and deals 10 damage
-						players[1].movementSpeed = 2;
+							if(players[1].movementSpeed > 2)
+							players[1].movementSpeed --;
 						players[1].health-=10;
 						}
 						
@@ -581,7 +602,8 @@ public class MainClass extends BasicGame  {
 					
 					if(projectiles2.get(d).collides){
 						if(projectiles2.get(d).wepEffect == 2){
-							players[0].movementSpeed = 1;
+							if(players[0].movementSpeed > 2)
+							players[0].movementSpeed --;
 						players[0].health -= 5;
 						
 					

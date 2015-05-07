@@ -32,6 +32,9 @@ public class Projectile {
 	public int width = 73;
 	public int height = 34;
 	public boolean collides = false;
+	
+	
+	//Projectile class constructor
 	Projectile(int xPos, int yPos, String imgOne, String imgTwo, int dur1, int dur2, int[] direction, int wepEffect) throws SlickException{
 		
 	this.xPos = new Integer(xPos) ;

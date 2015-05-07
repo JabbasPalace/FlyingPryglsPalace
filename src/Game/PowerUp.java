@@ -37,7 +37,7 @@ public class PowerUp {
 	Animation pUps;
 	
 	
-	
+	//Powerup class constructor
 	PowerUp(int xPos, int yPos, String img1, String img2, int dur1, int dur2)throws SlickException{
 		Image[] anim = { new Image (img1), new Image (img2) };
 		pUps = new Animation(anim,dur,false);
@@ -45,6 +45,7 @@ public class PowerUp {
 		this.yPos = randInt(0,800);
 	}
 	
+	//Method for spawning at random location.
 	public int randInt(int min, int max) {
 		  
 	    Random rand = new Random();

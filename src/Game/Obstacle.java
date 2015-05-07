@@ -35,6 +35,7 @@ public boolean collides = false;
 
 Animation obst;
 
+//Obstacle constructor
 Obstacle(int xPos, int yPos, String img1, String img2, int dur1, int dur2)throws SlickException{
 	Image[] anim = { new Image (img1), new Image (img2) };
 	obst = new Animation(anim,dur,false);
@@ -43,7 +44,7 @@ Obstacle(int xPos, int yPos, String img1, String img2, int dur1, int dur2)throws
 	
 }
 
-
+//Method for spawning randomly
 public int randInt(int min, int max) {
 	  
     Random rand = new Random();

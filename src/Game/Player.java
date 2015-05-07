@@ -44,7 +44,7 @@ public class Player {
 	int height = 55;
 
 	
-	
+//Player class constructor	
 Player(int xPos, int yPos, Image[] images){
 	
 	moveLeft = new Image[] {images[0], images[1]};
@@ -62,6 +62,7 @@ Player(int xPos, int yPos, Image[] images){
 			
 }
 
+//Method for loosing health when colliding with an obstacle
 public void lifeloss(){
 long Ntime = System.currentTimeMillis();
 if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
@@ -70,10 +71,11 @@ health --;
 }
 }
 
+//Method for gaining movementspeed when taking a powerup.
 public void powerUp(){
 long Ntime = System.currentTimeMillis();
 if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
-movementSpeed += 1;
+movementSpeed += 5;
 
 }
 
@@ -81,11 +83,11 @@ movementSpeed += 1;
 }
 
 
-
+//Method for firing projectiles for player 1
 public void fire(String image1, String image2, int[] direction, int wepEffect) throws SlickException{
 	MainClass.projectiles.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir, wepEffect));
 }
-
+//Method for firing projectiles for player 2
 public void fire2(String image1, String image2, int[] direction, int wepEffect) throws SlickException{
 	MainClass.projectiles2.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir, wepEffect));
 }
