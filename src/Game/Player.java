@@ -68,6 +68,15 @@ if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
 health --;
 
 }
+}
+
+public void powerUp(){
+long Ntime = System.currentTimeMillis();
+if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
+movementSpeed += 5;
+
+}
+
 
 }
 
