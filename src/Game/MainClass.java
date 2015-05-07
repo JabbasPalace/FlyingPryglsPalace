@@ -72,10 +72,16 @@ public class MainClass extends BasicGame  {
         public static ArrayList<Projectile> projectiles2 = new ArrayList<Projectile>();
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
         public static ArrayList<PowerUp> powerup = new ArrayList<PowerUp>();
+
+        
+        
+
+
+    
          
        Player[] players = new Player[2]; // Player Array
        public Image BG; // Background Image
-        
+
        
         
 		@Override
@@ -83,7 +89,9 @@ public class MainClass extends BasicGame  {
 
 			//Initial x and y positions and Sprites for animations assigned to players
 			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+
 			players[1] = new Player(1100, 730, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
+
 			BG = new Image("desertBG.png");
 			
 		}
@@ -364,7 +372,9 @@ public class MainClass extends BasicGame  {
 		
 		public void spawn2(String image1, String image2) throws SlickException{
 			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
+
 			// Adding powerup objects to ArrayList
+
 		}
 	
 
@@ -375,8 +385,10 @@ public class MainClass extends BasicGame  {
 			BG.draw(0,30);
 			
 			for (int i = 0; i < players.length; i++){
+				
 				collision(players[i], obstacles,projectiles); // Calling collision check for players, obstacles and projectiles every frame.
 				Pcollision(players[i],powerup);// Calling collision check for players and powerup every frame.
+
 			}
 			
 			for(int k = 0; k < obstacles.size(); k++){
@@ -436,11 +448,14 @@ public class MainClass extends BasicGame  {
 			
 			}
 			
+
 		public int randInt(int min, int max) { // Producing random coordinates for obstacle spawn
+
 			 boolean collides = false;
 		    Random rand = new Random();
 		    int randomNum = rand.nextInt((max - min) + 1) + min;
 		    for(int i = 0; i < players.length; i++){ // checking for collision with players before spawning
+
 		    if(randomNum  > (players[i].xPos - players[i].width/2)  && randomNum < (players[i].xPos + players[i].width/2) && randomNum > (players[i].yPos - players[i].height/2) && randomNum < (players[i].yPos + players[i].height/2)){
 		   collides = true;
 		}
