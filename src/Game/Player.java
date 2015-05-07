@@ -39,7 +39,7 @@ public class Player {
 	Animation playerAnim1,playerAnim2, death, none, active;
 	public int health = 100;
 	public int[] activewep = {0,0 };
-	public boolean collision = false;
+	public boolean collision = false, alive = true;
 	int width = 50;
 	int height = 55;
 

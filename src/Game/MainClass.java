@@ -114,6 +114,7 @@ public class MainClass extends BasicGame  {
 			}
 				
 			Input input = gc.getInput();
+			if(players[0].alive){
 			if(input.isKeyPressed(Input.KEY_NUMPAD1))
 				players[0].activewep[0] = 0;
 			
@@ -221,6 +222,8 @@ public class MainClass extends BasicGame  {
 				}
 				
 					}
+			}
+			if(players[1].alive){
 			if (input.isKeyDown(Input.KEY_W)){
 				players[1].direction[1] = -1;
 				players[1].lastDir[1] = -1;
@@ -316,6 +319,7 @@ public class MainClass extends BasicGame  {
 				}
 					
 			}
+			}
 			if(projectiles != null){
 				for(int k = 0; k < projectiles.size();k++){
 				projectiles.get(k).proj.update(i);
@@ -339,6 +343,7 @@ public class MainClass extends BasicGame  {
 				if (players[i1].health < 1){
 					players[i1].active = players[i1].death;
 					players[i1].active.update(i);
+					players[i1].alive = false;
 				} // moving player in keypressed direction, with current movement speed
 				players[i1].xPos += players[i1].direction[0] * players[i1].movementSpeed;
 				players[i1].yPos += players[i1].direction[1] * players[i1].movementSpeed;
