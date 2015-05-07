@@ -21,6 +21,7 @@ import java.util.Timer;
 
 
 
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -30,6 +31,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.state.StateBasedGame;
 
 
 
@@ -88,9 +90,9 @@ public class MainClass extends BasicGame  {
 		public void init(GameContainer gc) throws SlickException {
 
 			//Initial x and y positions and Sprites for animations assigned to players
-			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+			players[0] = new Player(1100,730, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 
-			players[1] = new Player(1100, 730, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
+			players[1] = new Player(50,120, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
 
 			BG = new Image("desertBG.png");
 			
@@ -101,6 +103,7 @@ public class MainClass extends BasicGame  {
 		public void update(GameContainer gc, int i) throws SlickException {
 			// Tracking time
 			lastTime = System.currentTimeMillis();
+			
 			if(obstacles != null && obstacles.size() < 10){
 				
 				spawn("Fire.png","Fire1.png");
@@ -360,7 +363,15 @@ public class MainClass extends BasicGame  {
 				}
 		
 			
+			if(!players[0].alive || !players[1].alive){
+				
 			
+				if(input.isKeyPressed(Input.KEY_ENTER)){
+					init(gc);
+					
+					
+				}
+			}
 			
 			
 		}
@@ -398,7 +409,7 @@ public class MainClass extends BasicGame  {
 			
 			for(int k = 0; k < obstacles.size(); k++){
 				Obstacle obsta = obstacles.get(k);
-				if(obsta.yPos > 100 && obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
+				if(obsta.yPos > 100 && obsta.yPos < 750 && obsta.xPos > 50 && obsta.xPos < 1100 && obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
 				}
@@ -447,7 +458,10 @@ public class MainClass extends BasicGame  {
 			}
 			
 		
-			
+			if(!players[0].alive && players[1].alive){
+				g.drawString("PLAYER TWO WINS!" + "PRESS ENTER TO RESET", 440, 450);
+			}else if(!players[1].alive && players[0].alive)
+				g.drawString("PLAYER ONE WINS! " + "PRESS ENTER TO RESET", 440, 450);
 			
 
 			
@@ -482,8 +496,8 @@ public class MainClass extends BasicGame  {
 				if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 					ar.get(o).collides = true;
 					p.movementSpeed = 4; // Movement speed is restored to default (Enable player to remove Weapon effect 2 slow)
-					p.lifeloss(); // Run lifeloss method from player class
-					
+					//p.lifeloss(); // Run lifeloss method from player class
+					p.health -=1;
 				}
 				else {
 					ar.get(o).collides = false;
