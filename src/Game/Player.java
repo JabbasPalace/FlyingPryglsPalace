@@ -85,11 +85,11 @@ movementSpeed += 5;
 
 //Method for firing projectiles for player 1
 public void fire(String image1, String image2, int[] direction, int wepEffect) throws SlickException{
-	MainClass.projectiles.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir, wepEffect));
+	MainClass.projectiles.add(new Projectile(this.xPos, this.yPos, image1, image2, 300,300, lastDir, wepEffect));
 }
 //Method for firing projectiles for player 2
 public void fire2(String image1, String image2, int[] direction, int wepEffect) throws SlickException{
-	MainClass.projectiles2.add(new Projectile(xPos, yPos, image1, image2, 300,300, lastDir, wepEffect));
+	MainClass.projectiles2.add(new Projectile(this.xPos, this.yPos, image1, image2, 300,300, lastDir, wepEffect));
 }
 
 
