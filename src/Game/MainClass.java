@@ -67,43 +67,42 @@ public class MainClass extends BasicGame  {
 	}
 	
 		
-		
+		//Declaration of ArrayLists to be used to store objects
         public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         public static ArrayList<Projectile> projectiles2 = new ArrayList<Projectile>();
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
- 
         public static ArrayList<PowerUp> powerup = new ArrayList<PowerUp>();
-
-
-       Player[] players = new Player[2];
-
+         
+       Player[] players = new Player[2]; // Player Array
+       public Image BG; // Background Image
         
        
         
 		@Override
 		public void init(GameContainer gc) throws SlickException {
 
-			
+			//Initial x and y positions and Sprites for animations assigned to players
 			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
-			players[1] = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
-
+			players[1] = new Player(1100, 730, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
+			BG = new Image("desertBG.png");
 			
 		}
 
 		
 		@Override
 		public void update(GameContainer gc, int i) throws SlickException {
-			
+			// Tracking time
 			lastTime = System.currentTimeMillis();
 			if(obstacles != null && obstacles.size() < 10){
 				
-				spawn("Fire.png","Fire1.png",false);
+				spawn("Fire.png","Fire1.png");
 				
 			}
 			
-			if(lastTime%10 == 0 && powerup.size() < 2){
+			if(powerup.size() < 2){
 				
-				spawn("something.png", "somethingelse.png",true);
+				
+				spawn2("PowerUp.png", "PowerUp.png");
 			}
 				
 			Input input = gc.getInput();
@@ -332,13 +331,13 @@ public class MainClass extends BasicGame  {
 				if (players[i1].health < 1){
 					players[i1].active = players[i1].death;
 					players[i1].active.update(i);
-				}
+				} // moving player in keypressed direction, with current movement speed
 				players[i1].xPos += players[i1].direction[0] * players[i1].movementSpeed;
 				players[i1].yPos += players[i1].direction[1] * players[i1].movementSpeed;
 			}
 						
 					
-			for (int j = 0; j < projectiles.size(); j++){
+			for (int j = 0; j < projectiles.size(); j++){ // Moving projectiles through the scene
 				projectiles.get(j).xPos += projectiles.get(j).dir[0] * projectiles.get(j).movementSpeed;
 				projectiles.get(j).yPos += projectiles.get(j).dir[1] * projectiles.get(j).movementSpeed;
 				}
@@ -356,34 +355,41 @@ public class MainClass extends BasicGame  {
 		
 		
 		
-		public void spawn(String image1, String image2, boolean a) throws SlickException{
-			if(a = false){
+		public void spawn(String image1, String image2) throws SlickException{
+			
 			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
-			}
-			else if(a = true){
+			// Adding obstacle objects to ArrayList
+			
+		}
+		
+		public void spawn2(String image1, String image2) throws SlickException{
 			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
-			}
+			// Adding powerup objects to ArrayList
 		}
 	
 
 		@Override
 		public void render(GameContainer gc, Graphics g) throws SlickException
 		{
+			
+			BG.draw(0,30);
+			
 			for (int i = 0; i < players.length; i++){
-				collision(players[i], obstacles);
+				collision(players[i], obstacles,projectiles); // Calling collision check for players, obstacles and projectiles every frame.
+				Pcollision(players[i],powerup);// Calling collision check for players and powerup every frame.
 			}
 			
-			for(int k = 0; k < obstacles.size()-1; k++){
+			for(int k = 0; k < obstacles.size(); k++){
 				Obstacle obsta = obstacles.get(k);
-				if(obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
+				if(obsta.yPos > 100 && obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
 				}
 			
 			for(int k = 0; k < powerup.size()-1; k++){
 				PowerUp pUp = powerup.get(k);
-				for(int j = 0; j < k; k++){
-				Obstacle obsta = obstacles.get(k);
+				for(int j = 0; j < obstacles.size(); j++){
+				Obstacle obsta = obstacles.get(j);
 				if(pUp.xPos != obsta.xPos && pUp.yPos != obsta.yPos && pUp.xPos != players[0].xPos && pUp.yPos != players[0].yPos && pUp.xPos != players[1].xPos && pUp.yPos != players[1].yPos )
 				pUp.pUps.draw(pUp.xPos,pUp.yPos);
 				}
@@ -391,7 +397,7 @@ public class MainClass extends BasicGame  {
 			
 			for (int j = 0; j < players.length; j++){
 				if (players[j].health > 0){
-					g.drawString("Player" + j+1 + " " + players[j].health + "HP", players[j].xPos+10, players[j].yPos-20);
+					g.drawString("Player" + (j+1) + " " + players[j].health + "HP", players[j].xPos+10, players[j].yPos-20); // Draw player health and "name" 1 or 2 above player
 				}
 				players[j].active.draw(players[j].xPos,players[j].yPos);
 			}
@@ -400,11 +406,11 @@ public class MainClass extends BasicGame  {
 			for (int i = 0; i < projectiles.size(); i++){
 				Projectile currentProj = projectiles.get(i);
 				if(players[0].active == players[0].playerAnim1)
-				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
+				currentProj.proj.draw(currentProj.xPos, currentProj.yPos); // Renders projectiles at the xPos and yPos of the player shooting
 				else
-					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
+					currentProj.proj.draw(currentProj.xPos, currentProj.yPos);
 				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
-					projectiles.remove(i);
+					projectiles.remove(i);// Removes projectiles when they reach the frame width and/or height
 					
 				}
 				
@@ -413,11 +419,11 @@ public class MainClass extends BasicGame  {
 			for (int i = 0; i < projectiles2.size(); i++){
 				Projectile currentProj = projectiles2.get(i);
 				if(players[1].active == players[1].playerAnim1)
-				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
+				currentProj.proj.draw(currentProj.xPos, currentProj.yPos); // Renders projectiles at the xPos and yPos of the player shooting
 				else
-					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
+					currentProj.proj.draw(currentProj.xPos, currentProj.yPos);
 				if (currentProj.xPos > 1200 || currentProj.xPos < 0 || currentProj.yPos > 800 || currentProj.yPos < 0){
-					projectiles2.remove(i);
+					projectiles2.remove(i); // Removes projectiles when they reach the frame width and/or height
 					
 				}
 				
@@ -430,21 +436,33 @@ public class MainClass extends BasicGame  {
 			
 			}
 			
-		public int randInt(int min, int max) {
-			  
+		public int randInt(int min, int max) { // Producing random coordinates for obstacle spawn
+			 boolean collides = false;
 		    Random rand = new Random();
 		    int randomNum = rand.nextInt((max - min) + 1) + min;
-		    return randomNum;
+		    for(int i = 0; i < players.length; i++){ // checking for collision with players before spawning
+		    if(randomNum  > (players[i].xPos - players[i].width/2)  && randomNum < (players[i].xPos + players[i].width/2) && randomNum > (players[i].yPos - players[i].height/2) && randomNum < (players[i].yPos + players[i].height/2)){
+		   collides = true;
+		}
+		    
+		    }
+		    if (collides){
+		    	 randInt(min,max);
+		    }
+		    else{
+		    	return randomNum;
+		    }
+		    return 0;
 		}
 		
-		public void collision (Player p, ArrayList<Obstacle> ar){
+		public void collision (Player p, ArrayList<Obstacle> ar, ArrayList<Projectile> arr){
 			
 			// OBSTACLES COLLISION
 			for(int o = 0; o < ar.size(); o++){
 				if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 					ar.get(o).collides = true;
-					p.movementSpeed = 2;
-					p.lifeloss();
+					p.movementSpeed = 4; // Movement speed is restored to default (Enable player to remove Weapon effect 2 slow)
+					p.lifeloss(); // Run lifeloss method from player class
 					
 				}
 				else {
@@ -469,20 +487,55 @@ public class MainClass extends BasicGame  {
 					else {
 						projectiles.get(q).collides = false;
 					}
-					
+										
 					if(projectiles.get(q).collides){
-						if(projectiles.get(q).wepEffect == 2){
-						players[1].movementSpeed = 1;
-						players[1].health-=5;
+						if(projectiles.get(q).wepEffect == 2){ // Icebolt slows the player hit, and deals 10 damage
+						players[1].movementSpeed = 2;
+						players[1].health-=10;
 						}
 						
-					else if(projectiles.get(q).wepEffect == 1){
-						players[1].health -= 10;
+					else if(projectiles.get(q).wepEffect == 1){ // Fireball deals 15 damage
+						players[1].health -= 15;
 					
 					}
 						projectiles.remove(q);
 				}
 				}
+				for(int z = 0; z < projectiles.size(); z++){ // Collision check for Player 1 projectiles on Obstacles
+					for(int j = 0; j < obstacles.size(); j++){
+					if((projectiles.get(z).xPos + projectiles.get(z).width/2) > (obstacles.get(j).xPos - obstacles.get(j).width/2)  && (projectiles.get(z).xPos - projectiles.get(z).width/2) < (obstacles.get(j).xPos + obstacles.get(j).width/2) && (projectiles.get(z).yPos + projectiles.get(z).height/2) > (obstacles.get(j).yPos - obstacles.get(j).height/2) && (projectiles.get(z).yPos - projectiles.get(z).height/2) < (obstacles.get(j).yPos + obstacles.get(j).height/2)){
+						projectiles.get(z).collides = true;
+						if(projectiles.get(z).wepEffect == 2){ // Weapon effect 2 (Icebolt) extinguish the flame obstacle
+						obstacles.remove(j);						
+						}else if(projectiles.get(z).wepEffect == 1){ // Weapon effect 1 (Fireball) shoots faster if collision with flame obstacle
+							projectiles.get(z).movementSpeed += 5;
+						}
+					
+					}
+					
+					else {
+						projectiles.get(z).collides = false;
+					}
+					}
+				}
+				for(int z = 0; z < projectiles2.size(); z++){ // Collision check for Player 2 projectiles on Obstacles
+					for(int j = 0; j < obstacles.size(); j++){
+					if((projectiles2.get(z).xPos + projectiles2.get(z).width/2) > (obstacles.get(j).xPos - obstacles.get(j).width/2)  && (projectiles2.get(z).xPos - projectiles2.get(z).width/2) < (obstacles.get(j).xPos + obstacles.get(j).width/2) && (projectiles2.get(z).yPos + projectiles2.get(z).height/2) > (obstacles.get(j).yPos - obstacles.get(j).height/2) && (projectiles2.get(z).yPos - projectiles2.get(z).height/2) < (obstacles.get(j).yPos + obstacles.get(j).height/2)){
+						projectiles2.get(z).collides = true;
+						if(projectiles2.get(z).wepEffect == 2){
+						obstacles.remove(j);
+						}else if(projectiles2.get(z).wepEffect == 1){
+							projectiles2.get(z).movementSpeed += 5;
+						}
+					
+					}
+					
+					else {
+						projectiles2.get(z).collides = false;
+					}
+					}
+				}
+					
 				
 				for(int d = 0; d < projectiles2.size(); d++){
 					if((projectiles2.get(d).xPos + projectiles2.get(d).width/2) > (players[0].xPos - players[0].width/2)  && (projectiles2.get(d).xPos - projectiles2.get(d).width/2) < (players[0].xPos + players[0].width/2) && (projectiles2.get(d).yPos + projectiles2.get(d).height/2) > (players[0].yPos - players[0].height/2) && (projectiles2.get(d).yPos - projectiles2.get(d).height/2) < (players[0].yPos + players[0].height/2)){
@@ -516,6 +569,7 @@ public class MainClass extends BasicGame  {
 						if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 							ar.get(o).collides = true;
 							p.powerUp();
+							powerup.remove(o);
 							
 						}
 						else {

@@ -27,7 +27,7 @@ import org.newdawn.slick.geom.Transform;
 
 
 public class Player {
-	public int movementSpeed = 2;
+	public int movementSpeed = 4;
 	public int xPos;
 	public int yPos;
 	int[] direction = {0,0};
@@ -40,8 +40,8 @@ public class Player {
 	public int health = 100;
 	public int[] activewep = {0,0 };
 	public boolean collision = false;
-	int width = 60;
-	int height = 80;
+	int width = 50;
+	int height = 55;
 
 	
 	
@@ -73,7 +73,7 @@ health --;
 public void powerUp(){
 long Ntime = System.currentTimeMillis();
 if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
-movementSpeed += 5;
+movementSpeed += 1;
 
 }
 
