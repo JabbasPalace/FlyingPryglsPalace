@@ -52,6 +52,7 @@ public class MainClass extends BasicGame  {
 			appgc = new AppGameContainer(new MainClass("Wizard Game"));
 			appgc.setDisplayMode(1200, 860, false);
 			appgc.setVSync(true);
+			appgc.setTargetFrameRate(60);
 			appgc.start();
 			
 			
@@ -76,6 +77,7 @@ public class MainClass extends BasicGame  {
         
 		@Override
 		public void init(GameContainer gc) throws SlickException {
+			
 			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 			player2 = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
 			
