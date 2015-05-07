@@ -52,6 +52,7 @@ public class MainClass extends BasicGame  {
 			appgc = new AppGameContainer(new MainClass("Wizard Game"));
 			appgc.setDisplayMode(1200, 860, false);
 			appgc.setVSync(true);
+			appgc.setTargetFrameRate(60);
 			appgc.start();
 			
 			
@@ -70,14 +71,22 @@ public class MainClass extends BasicGame  {
         public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         public static ArrayList<Projectile> projectiles2 = new ArrayList<Projectile>();
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-        Player player1, player2;
+ 
+        public static ArrayList<PowerUp> powerup = new ArrayList<PowerUp>();
+
+
+       Player[] players = new Player[2];
+
         
        
         
 		@Override
 		public void init(GameContainer gc) throws SlickException {
-			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
-			player2 = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
+
+			
+			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+			players[1] = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
+
 			
 		}
 
@@ -88,210 +97,215 @@ public class MainClass extends BasicGame  {
 			lastTime = System.currentTimeMillis();
 			if(obstacles != null && obstacles.size() < 10){
 				
-				spawn("Fire.png","Fire1.png");
+				spawn("Fire.png","Fire1.png",false);
 				
+			}
+			
+			if(lastTime%10 == 0 && powerup.size() < 2){
+				
+				spawn("something.png", "somethingelse.png",true);
 			}
 				
 			Input input = gc.getInput();
 			if(input.isKeyPressed(Input.KEY_NUMPAD1))
-				player1.activewep[0] = 0;
+				players[0].activewep[0] = 0;
 			
 			if(input.isKeyPressed(Input.KEY_NUMPAD2))
-				player1.activewep[0] = 1;
+				players[0].activewep[0] = 1;
 			
 			if(input.isKeyPressed(Input.KEY_1))
-				player2.activewep[0] = 0;
+				players[1].activewep[0] = 0;
 			
 			if(input.isKeyPressed(Input.KEY_2))
-				player2.activewep[0] = 1;
+				players[1].activewep[0] = 1;
 			
 			if (input.isKeyDown(Input.KEY_UP)){
-				player1.direction[1] = -1;
-				player1.lastDir[1] = -1;
-				player1.active.update(i);
-				if(player1.yPos < -30 ){
-					player1.direction[1] = 1;
+				players[0].direction[1] = -1;
+				players[0].lastDir[1] = -1;
+				players[0].active.update(i);
+				if(players[0].yPos < -30 ){
+					players[0].direction[1] = 1;
 				}
 				if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
-					player1.lastDir[0] = 0;
+					players[0].lastDir[0] = 0;
 					
 					}
 			}
 			if (input.isKeyDown(Input.KEY_DOWN)){
-				player1.direction[1] = 1;
-				player1.lastDir[1] = 1;
-				player1.active.update(i);
-				if(player1.yPos > 765 ){
-					player1.direction[1] = -1;
+				players[0].direction[1] = 1;
+				players[0].lastDir[1] = 1;
+				players[0].active.update(i);
+				if(players[0].yPos > 765 ){
+					players[0].direction[1] = -1;
 				}
 				if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
-					player1.lastDir[0] = 0;	
+					players[0].lastDir[0] = 0;	
 					}
 			}
 	        if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
-			    player1.direction[1] = 0;	
+			    players[0].direction[1] = 0;	
 			}
 			if (input.isKeyDown(Input.KEY_LEFT)){
-				player1.direction[0] = -1;
-				player1.lastDir[0] = -1;
-				player1.active = player1.playerAnim2;
-				player1.active.update(i);
-				if(player1.xPos < -25 ){
-					player1.direction[0] = 1;
+				players[0].direction[0] = -1;
+				players[0].lastDir[0] = -1;
+				players[0].active = players[0].playerAnim2;
+				players[0].active.update(i);
+				if(players[0].xPos < -25 ){
+					players[0].direction[0] = 1;
 				}
 				 if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
-					    player1.lastDir[1] = 0;	
+					    players[0].lastDir[1] = 0;	
 					}
 				
 			}
 			if (input.isKeyDown(Input.KEY_RIGHT)){
-				player1.direction[0] = 1;
-				player1.lastDir[0] = 1;
-				player1.active = player1.playerAnim1;
-				player1.active.update(i);
-				if(player1.xPos > 1110 ){
-					player1.direction[0] = -1;
+				players[0].direction[0] = 1;
+				players[0].lastDir[0] = 1;
+				players[0].active = players[0].playerAnim1;
+				players[0].active.update(i);
+				if(players[0].xPos > 1110 ){
+					players[0].direction[0] = -1;
 				}
 				  if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP)) {
-					    player1.lastDir[1] = 0;	
+					    players[0].lastDir[1] = 0;	
 					}
 			}
 			if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
-				player1.direction[0] = 0;	
+				players[0].direction[0] = 0;	
 				}
 		
 			
 			if (input.isKeyPressed(Input.KEY_RCONTROL)){
-				if(player1.activewep[0] == 1){
+				if(players[0].activewep[0] == 1){
 				//Fireball down
-				if(player1.direction[0] == 0 && player1.direction[1] == 1)
-				player1.fire("FBd.png","FBd1.png", player1.direction,1);
+				if(players[0].direction[0] == 0 && players[0].direction[1] == 1)
+				players[0].fire("FBd.png","FBd1.png", players[0].direction,1);
 												
 				//Fireball right down
-				if(player1.direction[0] == 1 && player1.direction[1] == 1)
-					player1.fire("FBrd.png","FBrd1.png", player1.direction,1);
+				if(players[0].direction[0] == 1 && players[0].direction[1] == 1)
+					players[0].fire("FBrd.png","FBrd1.png", players[0].direction,1);
 			
 				//Fireball right
-				if(player1.direction[0] == 1 && player1.direction[1] == 0)
-					player1.fire("FBr.png","FBr1.png", player1.direction,1);
+				if(players[0].direction[0] == 1 && players[0].direction[1] == 0)
+					players[0].fire("FBr.png","FBr1.png", players[0].direction,1);
 				
 				//Fireball left
-				if(player1.direction[0] == -1 && player1.direction[1] == 0)
-					player1.fire("FBl.png","FBl1.png", player1.direction,1);
+				if(players[0].direction[0] == -1 && players[0].direction[1] == 0)
+					players[0].fire("FBl.png","FBl1.png", players[0].direction,1);
 				
 				//Fireball left down
-				if(player1.direction[0] == -1 && player1.direction[1] == 1)
-					player1.fire("FBld.png","FBld1.png", player1.direction,1);
+				if(players[0].direction[0] == -1 && players[0].direction[1] == 1)
+					players[0].fire("FBld.png","FBld1.png", players[0].direction,1);
 				
 				//Fireball up
-				if(player1.direction[0] == 0 && player1.direction[1] == -1)
-					player1.fire("FBu.png","FBu1.png", player1.direction,1);
+				if(players[0].direction[0] == 0 && players[0].direction[1] == -1)
+					players[0].fire("FBu.png","FBu1.png", players[0].direction,1);
 				
 				//Fireball right up
-				if(player1.direction[0] == 1 && player1.direction[1] == -1)
-					player1.fire("FBru.png","FBru1.png", player1.direction,1);
+				if(players[0].direction[0] == 1 && players[0].direction[1] == -1)
+					players[0].fire("FBru.png","FBru1.png", players[0].direction,1);
 				
 				//Fireball left up
-				if(player1.direction[0] == -1 && player1.direction[1] == -1)
-					player1.fire("FBlu.png","FBlu1.png", player1.direction,1);
+				if(players[0].direction[0] == -1 && players[0].direction[1] == -1)
+					players[0].fire("FBlu.png","FBlu1.png", players[0].direction,1);
 				}
-				else if (player1.activewep[0] == 0){
-					player1.fire("sb.png", "sb1.png", player1.direction,2);
+				else if (players[0].activewep[0] == 0){
+					players[0].fire("sb.png", "sb1.png", players[0].direction,2);
 				}
 				
 					}
 			if (input.isKeyDown(Input.KEY_W)){
-				player2.direction[1] = -1;
-				player2.lastDir[1] = -1;
-				player2.active.update(i);
-				if(player2.yPos < -30 ){
-					player1.direction[1] = 1;
+				players[1].direction[1] = -1;
+				players[1].lastDir[1] = -1;
+				players[1].active.update(i);
+				if(players[1].yPos < -30 ){
+					players[0].direction[1] = 1;
 				}
 				if (!input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_RIGHT)){
-					player2.lastDir[0] = 0;
+					players[1].lastDir[0] = 0;
 					
 					}
 			}
 			if (input.isKeyDown(Input.KEY_S)){
-				player2.direction[1] = 1;
-				player2.lastDir[1] = 1;
-				player2.active.update(i);
-				if(player2.yPos > 765 ){
-					player2.direction[1] = -1;
+				players[1].direction[1] = 1;
+				players[1].lastDir[1] = 1;
+				players[1].active.update(i);
+				if(players[1].yPos > 765 ){
+					players[1].direction[1] = -1;
 				}
 				if (!input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_D)){
-					player2.lastDir[0] = 0;	
+					players[1].lastDir[0] = 0;	
 					}
 			}
 	        if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
-			    player2.direction[1] = 0;	
+			    players[1].direction[1] = 0;	
 			}
 			if (input.isKeyDown(Input.KEY_A)){
-				player2.direction[0] = -1;
-				player2.lastDir[0] = -1;
-				player2.active = player2.playerAnim2;
-				player2.active.update(i);
-				if(player2.xPos < -25 ){
-					player2.direction[0] = 1;
+				players[1].direction[0] = -1;
+				players[1].lastDir[0] = -1;
+				players[1].active = players[1].playerAnim2;
+				players[1].active.update(i);
+				if(players[1].xPos < -25 ){
+					players[1].direction[0] = 1;
 				}
 				 if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
-					    player2.lastDir[1] = 0;	
+					    players[1].lastDir[1] = 0;	
 					}
 				
 			}
 			if (input.isKeyDown(Input.KEY_D)){
-				player2.direction[0] = 1;
-				player2.lastDir[0] = 1;
-				player2.active = player2.playerAnim1;
-				player2.active.update(i);
-				if(player2.xPos > 1110 ){
-					player2.direction[0] = -1;
+				players[1].direction[0] = 1;
+				players[1].lastDir[0] = 1;
+				players[1].active = players[1].playerAnim1;
+				players[1].active.update(i);
+				if(players[1].xPos > 1110 ){
+					players[1].direction[0] = -1;
 				}
 				  if (!input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W)) {
-					    player2.lastDir[1] = 0;	
+					    players[1].lastDir[1] = 0;	
 					}
 			}
 			if (!input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_D)){
-				player2.direction[0] = 0;	
+				players[1].direction[0] = 0;	
 				}
 		
 			
 			if (input.isKeyPressed(Input.KEY_SPACE)){
-				if(player2.activewep[0] == 1){
+				if(players[1].activewep[0] == 1){
 				//Fireball down
-				if(player2.direction[0] == 0 && player2.direction[1] == 1)
-				player2.fire2("FBd.png","FBd1.png", player2.direction,1);
+				if(players[1].direction[0] == 0 && players[1].direction[1] == 1)
+				players[1].fire2("FBd.png","FBd1.png", players[1].direction,1);
 												
 				//Fireball right down
-				if(player2.direction[0] == 1 && player2.direction[1] == 1)
-					player2.fire2("FBrd.png","FBrd1.png", player2.direction,1);
+				if(players[1].direction[0] == 1 && players[1].direction[1] == 1)
+					players[1].fire2("FBrd.png","FBrd1.png", players[1].direction,1);
 			
 				//Fireball right
-				if(player2.direction[0] == 1 && player2.direction[1] == 0)
-					player2.fire2("FBr.png","FBr1.png", player2.direction,1);
+				if(players[1].direction[0] == 1 && players[1].direction[1] == 0)
+					players[1].fire2("FBr.png","FBr1.png", players[1].direction,1);
 				
 				//Fireball left
-				if(player2.direction[0] == -1 && player2.direction[1] == 0)
-					player2.fire2("FBl.png","FBl1.png", player2.direction,1);
+				if(players[1].direction[0] == -1 && players[1].direction[1] == 0)
+					players[1].fire2("FBl.png","FBl1.png", players[1].direction,1);
 				
 				//Fireball left down
-				if(player2.direction[0] == -1 && player2.direction[1] == 1)
-					player2.fire2("FBld.png","FBld1.png", player2.direction,1);
+				if(players[1].direction[0] == -1 && players[1].direction[1] == 1)
+					players[1].fire2("FBld.png","FBld1.png", players[1].direction,1);
 				
 				//Fireball up
-				if(player2.direction[0] == 0 && player2.direction[1] == -1)
-					player2.fire2("FBu.png","FBu1.png", player2.direction,1);
+				if(players[1].direction[0] == 0 && players[1].direction[1] == -1)
+					players[1].fire2("FBu.png","FBu1.png", players[1].direction,1);
 				
 				//Fireball right up
-				if(player2.direction[0] == 1 && player2.direction[1] == -1)
-					player2.fire2("FBru.png","FBru1.png", player2.direction,1);
+				if(players[1].direction[0] == 1 && players[1].direction[1] == -1)
+					players[1].fire2("FBru.png","FBru1.png", players[1].direction,1);
 				
 				//Fireball left up
-				if(player2.direction[0] == -1 && player2.direction[1] == -1)
-					player2.fire2("FBlu.png","FBlu1.png", player2.direction,1);
+				if(players[1].direction[0] == -1 && players[1].direction[1] == -1)
+					players[1].fire2("FBlu.png","FBlu1.png", players[1].direction,1);
 				}									
-				else if(player2.activewep[0] == 0){
-					player2.fire2("sb.png", "sb1.png", player2.direction,2);
+				else if(players[1].activewep[0] == 0){
+					players[1].fire2("sb.png", "sb1.png", players[1].direction,2);
 				}
 					
 			}
@@ -314,21 +328,16 @@ public class MainClass extends BasicGame  {
 				}
 			}
 			// AT DEATH
-			if(player1.health < 1){
-				player1.active = player1.death;
-				player1.active.update(i);
+			for (int i1 = 0; i1 < players.length; i1++){
+				if (players[i1].health < 1){
+					players[i1].active = players[i1].death;
+					players[i1].active.update(i);
+				}
+				players[i1].xPos += players[i1].direction[0] * players[i1].movementSpeed;
+				players[i1].yPos += players[i1].direction[1] * players[i1].movementSpeed;
 			}
-			if(player2.health < 1){
-				player2.active = player2.death;
-				player2.active.update(i);
-			}
-			
-			
-			player1.xPos += player1.direction[0] * player1.movementSpeed;
-			player1.yPos += player1.direction[1] * player1.movementSpeed;
-			player2.xPos += player2.direction[0] * player2.movementSpeed;
-			player2.yPos += player2.direction[1] * player2.movementSpeed;
-			
+						
+					
 			for (int j = 0; j < projectiles.size(); j++){
 				projectiles.get(j).xPos += projectiles.get(j).dir[0] * projectiles.get(j).movementSpeed;
 				projectiles.get(j).yPos += projectiles.get(j).dir[1] * projectiles.get(j).movementSpeed;
@@ -347,38 +356,50 @@ public class MainClass extends BasicGame  {
 		
 		
 		
-		public void spawn(String image1, String image2) throws SlickException{
+		public void spawn(String image1, String image2, boolean a) throws SlickException{
+			if(a = false){
 			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
+			}
+			else if(a = true){
+			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
+			}
 		}
 	
 
 		@Override
 		public void render(GameContainer gc, Graphics g) throws SlickException
 		{
-			
-			collision(player1, obstacles);
-			collision(player2, obstacles);
+			for (int i = 0; i < players.length; i++){
+				collision(players[i], obstacles);
+			}
 			
 			for(int k = 0; k < obstacles.size()-1; k++){
 				Obstacle obsta = obstacles.get(k);
-				if(obsta.xPos != player1.xPos && obsta.yPos != player1.yPos && obsta.xPos != player2.xPos && obsta.yPos != player2.yPos)
+				if(obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
 				}
 			
+			for(int k = 0; k < powerup.size()-1; k++){
+				PowerUp pUp = powerup.get(k);
+				for(int j = 0; j < k; k++){
+				Obstacle obsta = obstacles.get(k);
+				if(pUp.xPos != obsta.xPos && pUp.yPos != obsta.yPos && pUp.xPos != players[0].xPos && pUp.yPos != players[0].yPos && pUp.xPos != players[1].xPos && pUp.yPos != players[1].yPos )
+				pUp.pUps.draw(pUp.xPos,pUp.yPos);
+				}
+				}
 			
-			if(player1.health > 0)
-			g.drawString("Player 1 " + player1.health + "HP", player1.xPos+10, player1.yPos-20);
-			
-			if(player2.health > 0)
-			g.drawString("Player 2 "+ player2.health + "HP", player2.xPos+10, player2.yPos-20);
-			player1.active.draw(player1.xPos,player1.yPos);
-			player2.active.draw(player2.xPos,player2.yPos);
-			
+			for (int j = 0; j < players.length; j++){
+				if (players[j].health > 0){
+					g.drawString("Player" + j+1 + " " + players[j].health + "HP", players[j].xPos+10, players[j].yPos-20);
+				}
+				players[j].active.draw(players[j].xPos,players[j].yPos);
+			}
+				
 			
 			for (int i = 0; i < projectiles.size(); i++){
 				Projectile currentProj = projectiles.get(i);
-				if(player1.active == player1.playerAnim1)
+				if(players[0].active == players[0].playerAnim1)
 				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
 				else
 					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
@@ -391,7 +412,7 @@ public class MainClass extends BasicGame  {
 			
 			for (int i = 0; i < projectiles2.size(); i++){
 				Projectile currentProj = projectiles2.get(i);
-				if(player2.active == player2.playerAnim1)
+				if(players[1].active == players[1].playerAnim1)
 				currentProj.proj.draw(currentProj.xPos+50, currentProj.yPos+50);
 				else
 					currentProj.proj.draw(currentProj.xPos-50, currentProj.yPos+50);
@@ -432,12 +453,17 @@ public class MainClass extends BasicGame  {
 					
 					
 				}
+			}
+				
+				
+				
+				
 				//Collision
 				
 				
 				
 				for(int q = 0; q < projectiles.size(); q++){
-					if((projectiles.get(q).xPos + projectiles.get(q).width/2) > (player2.xPos - player2.width/2)  && (projectiles.get(q).xPos - projectiles.get(q).width/2) < (player2.xPos + player2.width/2) && (projectiles.get(q).yPos + projectiles.get(q).height/2) > (player2.yPos - player2.height/2) && (projectiles.get(q).yPos - projectiles.get(q).height/2) < (player2.yPos + player2.height/2)){
+					if((projectiles.get(q).xPos + projectiles.get(q).width/2) > (players[1].xPos - players[1].width/2)  && (projectiles.get(q).xPos - projectiles.get(q).width/2) < (players[1].xPos + players[1].width/2) && (projectiles.get(q).yPos + projectiles.get(q).height/2) > (players[1].yPos - players[1].height/2) && (projectiles.get(q).yPos - projectiles.get(q).height/2) < (players[1].yPos + players[1].height/2)){
 						projectiles.get(q).collides = true;
 					}
 					else {
@@ -446,12 +472,12 @@ public class MainClass extends BasicGame  {
 					
 					if(projectiles.get(q).collides){
 						if(projectiles.get(q).wepEffect == 2){
-							player2.movementSpeed = 1;
-						player2.health-=5;
+						players[1].movementSpeed = 1;
+						players[1].health-=5;
 						}
 						
 					else if(projectiles.get(q).wepEffect == 1){
-						player2.health -= 10;
+						players[1].health -= 10;
 					
 					}
 						projectiles.remove(q);
@@ -459,7 +485,7 @@ public class MainClass extends BasicGame  {
 				}
 				
 				for(int d = 0; d < projectiles2.size(); d++){
-					if((projectiles2.get(d).xPos + projectiles2.get(d).width/2) > (player1.xPos - player1.width/2)  && (projectiles2.get(d).xPos - projectiles2.get(d).width/2) < (player1.xPos + player1.width/2) && (projectiles2.get(d).yPos + projectiles2.get(d).height/2) > (player1.yPos - player1.height/2) && (projectiles2.get(d).yPos - projectiles2.get(d).height/2) < (player1.yPos + player1.height/2)){
+					if((projectiles2.get(d).xPos + projectiles2.get(d).width/2) > (players[0].xPos - players[0].width/2)  && (projectiles2.get(d).xPos - projectiles2.get(d).width/2) < (players[0].xPos + players[0].width/2) && (projectiles2.get(d).yPos + projectiles2.get(d).height/2) > (players[0].yPos - players[0].height/2) && (projectiles2.get(d).yPos - projectiles2.get(d).height/2) < (players[0].yPos + players[0].height/2)){
 						projectiles2.get(d).collides = true;
 					}
 					else {
@@ -468,21 +494,40 @@ public class MainClass extends BasicGame  {
 					
 					if(projectiles2.get(d).collides){
 						if(projectiles2.get(d).wepEffect == 2){
-							player1.movementSpeed = 1;
-						player1.health -= 5;
+							players[0].movementSpeed = 1;
+						players[0].health -= 5;
 						
 					
 						}else if(projectiles2.get(d).wepEffect == 1){
-						player1.health -= 10;
+						players[0].health -= 10;
 						
 						
 					}
 						projectiles2.remove(d);
+				
 				}
 				}
-				
-				
 		}
+				
+				public void Pcollision (Player p, ArrayList<PowerUp> ar){
+					
+					// OBSTACLES COLLISION
+					for(int o = 0; o < ar.size(); o++){
+						if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
+							ar.get(o).collides = true;
+							p.powerUp();
+							
+						}
+						else {
+							ar.get(o).collides = false;
+							
+							
+							
+						}
+					}
+				
+				
+
 		}
 	
 	
