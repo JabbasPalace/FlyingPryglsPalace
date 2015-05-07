@@ -70,6 +70,7 @@ public class MainClass extends BasicGame  {
         public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         public static ArrayList<Projectile> projectiles2 = new ArrayList<Projectile>();
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+        public static ArrayList<PowerUp> powerup = new ArrayList<PowerUp>();
         Player player1, player2;
         
        
@@ -78,6 +79,7 @@ public class MainClass extends BasicGame  {
 		public void init(GameContainer gc) throws SlickException {
 			player1 = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 			player2 = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
+	
 			
 		}
 
@@ -88,8 +90,13 @@ public class MainClass extends BasicGame  {
 			lastTime = System.currentTimeMillis();
 			if(obstacles != null && obstacles.size() < 10){
 				
-				spawn("Fire.png","Fire1.png");
+				spawn("Fire.png","Fire1.png",false);
 				
+			}
+			
+			if(lastTime%10 == 0 && powerup.size() < 2){
+				
+				spawn("something.png", "somethingelse.png",true);
 			}
 				
 			Input input = gc.getInput();
@@ -347,8 +354,13 @@ public class MainClass extends BasicGame  {
 		
 		
 		
-		public void spawn(String image1, String image2) throws SlickException{
+		public void spawn(String image1, String image2, boolean a) throws SlickException{
+			if(a = false){
 			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
+			}
+			else if(a = true){
+			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
+			}
 		}
 	
 
@@ -364,6 +376,15 @@ public class MainClass extends BasicGame  {
 				if(obsta.xPos != player1.xPos && obsta.yPos != player1.yPos && obsta.xPos != player2.xPos && obsta.yPos != player2.yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
 				
+				}
+			
+			for(int k = 0; k < powerup.size()-1; k++){
+				PowerUp pUp = powerup.get(k);
+				for(int j = 0; j < k; k++){
+				Obstacle obsta = obstacles.get(k);
+				if(pUp.xPos != obsta.xPos && pUp.yPos != obsta.yPos && pUp.xPos != player1.xPos && pUp.yPos != player1.yPos && pUp.xPos != player2.xPos && pUp.yPos != player2.yPos )
+				pUp.pUps.draw(pUp.xPos,pUp.yPos);
+				}
 				}
 			
 			
@@ -432,6 +453,11 @@ public class MainClass extends BasicGame  {
 					
 					
 				}
+			}
+				
+				
+				
+				
 				//Collision
 				
 				
@@ -478,11 +504,30 @@ public class MainClass extends BasicGame  {
 						
 					}
 						projectiles2.remove(d);
+				
 				}
 				}
-				
-				
 		}
+				
+				public void Pcollision (Player p, ArrayList<PowerUp> ar){
+					
+					// OBSTACLES COLLISION
+					for(int o = 0; o < ar.size(); o++){
+						if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
+							ar.get(o).collides = true;
+							p.powerUp();
+							
+						}
+						else {
+							ar.get(o).collides = false;
+							
+							
+							
+						}
+					}
+				
+				
+
 		}
 	
 	
