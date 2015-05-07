@@ -73,10 +73,12 @@ public class MainClass extends BasicGame  {
         public static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
  
         public static ArrayList<PowerUp> powerup = new ArrayList<PowerUp>();
+        
+        
 
 
        Player[] players = new Player[2];
-
+       public Image BG;
         
        
         
@@ -86,7 +88,7 @@ public class MainClass extends BasicGame  {
 			
 			players[0] = new Player(25,25, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 			players[1] = new Player(1100, 730, new Image[]{new Image("woBin.png"), new Image("woBin2.png"),new Image("woBin.png"), new Image("woBin2.png"),new Image("b.png"),new Image("b1.png")});
-
+			BG = new Image("desertBG.png");
 			
 		}
 
@@ -97,13 +99,14 @@ public class MainClass extends BasicGame  {
 			lastTime = System.currentTimeMillis();
 			if(obstacles != null && obstacles.size() < 10){
 				
-				spawn("Fire.png","Fire1.png",false);
+				spawn("Fire.png","Fire1.png");
 				
 			}
 			
-			if(lastTime%10 == 0 && powerup.size() < 2){
+			if(powerup.size() < 2){
 				
-				spawn("something.png", "somethingelse.png",true);
+				
+				spawn2("PowerUp.png", "PowerUp.png");
 			}
 				
 			Input input = gc.getInput();
@@ -356,24 +359,30 @@ public class MainClass extends BasicGame  {
 		
 		
 		
-		public void spawn(String image1, String image2, boolean a) throws SlickException{
-			if(a = false){
+		public void spawn(String image1, String image2) throws SlickException{
+			
 			MainClass.obstacles.add(new Obstacle(randInt(0,1200), randInt(0,800), image1, image2, 300,300));
-			}
-			else if(a = true){
+			
+			
+		}
+		
+		public void spawn2(String image1, String image2) throws SlickException{
 			MainClass.powerup.add(new PowerUp(randInt(0,1200), randInt(0,800), image1, image2, 300, 300));
-			}
 		}
 	
 
 		@Override
 		public void render(GameContainer gc, Graphics g) throws SlickException
 		{
+			
+			BG.draw(0,30);
+			
 			for (int i = 0; i < players.length; i++){
 				collision(players[i], obstacles);
+				Pcollision(players[i],powerup);
 			}
 			
-			for(int k = 0; k < obstacles.size()-1; k++){
+			for(int k = 0; k < obstacles.size(); k++){
 				Obstacle obsta = obstacles.get(k);
 				if(obsta.xPos != players[0].xPos && obsta.yPos != players[0].yPos && obsta.xPos != players[1].xPos && obsta.yPos != players[1].yPos)
 				obsta.obst.draw(obsta.xPos,obsta.yPos);
@@ -382,8 +391,8 @@ public class MainClass extends BasicGame  {
 			
 			for(int k = 0; k < powerup.size()-1; k++){
 				PowerUp pUp = powerup.get(k);
-				for(int j = 0; j < k; k++){
-				Obstacle obsta = obstacles.get(k);
+				for(int j = 0; j < obstacles.size(); j++){
+				Obstacle obsta = obstacles.get(j);
 				if(pUp.xPos != obsta.xPos && pUp.yPos != obsta.yPos && pUp.xPos != players[0].xPos && pUp.yPos != players[0].yPos && pUp.xPos != players[1].xPos && pUp.yPos != players[1].yPos )
 				pUp.pUps.draw(pUp.xPos,pUp.yPos);
 				}
@@ -431,10 +440,22 @@ public class MainClass extends BasicGame  {
 			}
 			
 		public int randInt(int min, int max) {
-			  
+			 boolean collides = false;
 		    Random rand = new Random();
 		    int randomNum = rand.nextInt((max - min) + 1) + min;
-		    return randomNum;
+		    for(int i = 0; i < players.length; i++){
+		    if(randomNum  > (players[i].xPos - players[i].width/2)  && randomNum < (players[i].xPos + players[i].width/2) && randomNum > (players[i].yPos - players[i].height/2) && randomNum < (players[i].yPos + players[i].height/2)){
+		   collides = true;
+		}
+		    
+		    }
+		    if (collides){
+		    	 randInt(min,max);
+		    }
+		    else{
+		    	return randomNum;
+		    }
+		    return 0;
 		}
 		
 		public void collision (Player p, ArrayList<Obstacle> ar){
@@ -516,6 +537,7 @@ public class MainClass extends BasicGame  {
 						if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 							ar.get(o).collides = true;
 							p.powerUp();
+							powerup.remove(o);
 							
 						}
 						else {
