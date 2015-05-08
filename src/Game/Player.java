@@ -63,14 +63,7 @@ Player(int xPos, int yPos, Image[] images){
 			
 }
 
-//Method for loosing health when colliding with an obstacle
-public void lifeloss(){
-long Ntime = System.currentTimeMillis();
-if(((MainClass.lastTime/100) + (Ntime/100))%4 == 0 ){
-health --;
 
-}
-}
 
 //Method for gaining movementspeed when taking a powerup.
 public void powerUp(){
