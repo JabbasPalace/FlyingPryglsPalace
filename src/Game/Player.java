@@ -42,7 +42,7 @@ public class Player {
 	public boolean collision = false, alive = true;
 	int width = 50;
 	int height = 55;
-	public int walkTimer = 0;
+	
 
 	
 //Player class constructor	
