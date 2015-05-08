@@ -18,12 +18,14 @@ After having cloned the repository to your disk you have to follow these few ste
 12. Press play to check it it works.
 13. Now, you can start making your own game.
 
+System Description
 
-We are creating a 2D sidescroller called Game of Weed (title in progress). Come join our Flying Prygl Palace. 
+MainClass is where everything else is put to use. Files a stored in the Game Container using void init(gamecontainer), Inputs, such as keypresses, are listened to through the void update(gamecontainer, delta), where animations are also controlled. Everything that needs to be drawn is called in the void render(gamecontainer, graphics) function, and collision between all the objects in the game is run through the void collision(player, obstacle), and pcollision(player, powerup) functions.
 
-14. CREATE GAME OF WEED
-15. LAUNCH LEAGUE OF LEGENDS
-16. DUO QUEUE
-17. CLIMB LADDER
-18. DROP OUT OF UNI
-19. BECOME PRO LEAGUE OF LEGENDS PLAYER LUkas
+Player Class is where all the data needed to create a controllable player is allocated. I.e. its X and Y positions, its sprites, animations an so forth.
+
+Projectile Class is using Player coordinates to know in which direction it should shoot. It takes images, duration (integers used to determain how often, and for how long each sprite should be drawn in the renderer)It also takes input through keypresses, enabling a player to shoot and switch between two different kind of weapons.
+
+Obstacle Class is alot like the Projectile Class. It gets an random position from a random Integer function, and check for player position ( to avoid collision upon spawn ) before an instance of it is added to the ArrayList located in main, and afterwards drawn in the renderer. It damages the player upon impact and restores the players movement speed to default.
+
+Powerup Class also checks for collision with player. Unlike the Obstacle Class, the Powerup adds a more movement speed to a given player. There can only spawn 1 obstacle at a time.
