@@ -44,7 +44,15 @@ public class MainClass extends BasicGame  {
 	static long lastTime;
 	public static int width = 1200;
 	public static int height = 860;
-	public Sound sound;
+	public Sound firesound;
+	public Sound frostsound;
+	public Sound footstep;
+	public Sound snowballHit;
+	public Sound fireballHit;
+	public Sound powerUp;
+	public Sound burn;
+	public Sound splat;
+public Sound[] deathSounds = new Sound[2];
 	public MainClass(String wizardShit) throws SlickException {
 		super(wizardShit);
 		
@@ -95,12 +103,22 @@ public class MainClass extends BasicGame  {
 		public void init(GameContainer gc) throws SlickException {
 
 			//Initial x and y positions and Sprites for animations assigned to players
-			players[0] = new Player(50,120, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+			players[0] = new Player(1100,730, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
 
-			players[1] = new Player(1100, 730, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
+			players[1] = new Player(50, 120, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
 
 			BG = new Image("desertBG.png");
 			
+			firesound = new Sound("Fireballsound.wav");
+			frostsound = new Sound("Frostballsound.wav");
+			footstep = new Sound("footstep.wav");
+			snowballHit = new Sound("snowballHit.wav");
+			fireballHit = new Sound("fireballHit.wav");
+			powerUp = new Sound("powerUp.wav");
+			burn = new Sound("burn.wav");
+			deathSounds[0] = new Sound("death1.wav");
+			deathSounds[1] = new Sound("death2.wav");
+			splat = new Sound("splat.wav");
 		}
 
 		
@@ -151,6 +169,7 @@ public class MainClass extends BasicGame  {
 				players[0].active.update(i);
 				if(players[0].yPos < -30 ){
 					players[0].direction[1] = 1;
+					
 				}
 				if (!input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)){
 					players[0].lastDir[0] = 0;
@@ -207,38 +226,49 @@ public class MainClass extends BasicGame  {
 			if (input.isKeyPressed(Input.KEY_RCONTROL)){
 				if(players[0].activewep[0] == 1){
 				//Fireball down
-				if(players[0].direction[0] == 0 && players[0].direction[1] == 1)
+				if(players[0].direction[0] == 0 && players[0].direction[1] == 1){
 				players[0].fire("FBd.png","FBd1.png", players[0].direction,1);
+				firesound.play();
+				}
 												
 				//Fireball right down
-				if(players[0].direction[0] == 1 && players[0].direction[1] == 1)
+				if(players[0].direction[0] == 1 && players[0].direction[1] == 1){
 					players[0].fire("FBrd.png","FBrd1.png", players[0].direction,1);
-			
+					firesound.play();
+				}
 				//Fireball right
-				if(players[0].direction[0] == 1 && players[0].direction[1] == 0)
+				if(players[0].direction[0] == 1 && players[0].direction[1] == 0){
 					players[0].fire("FBr.png","FBr1.png", players[0].direction,1);
-				
+					firesound.play();
+				}
 				//Fireball left
-				if(players[0].direction[0] == -1 && players[0].direction[1] == 0)
+				if(players[0].direction[0] == -1 && players[0].direction[1] == 0){
 					players[0].fire("FBl.png","FBl1.png", players[0].direction,1);
-				
+					firesound.play();
+				}
 				//Fireball left down
-				if(players[0].direction[0] == -1 && players[0].direction[1] == 1)
+				if(players[0].direction[0] == -1 && players[0].direction[1] == 1){
 					players[0].fire("FBld.png","FBld1.png", players[0].direction,1);
-				
+					firesound.play();
+				}
 				//Fireball up
-				if(players[0].direction[0] == 0 && players[0].direction[1] == -1)
+				if(players[0].direction[0] == 0 && players[0].direction[1] == -1){
 					players[0].fire("FBu.png","FBu1.png", players[0].direction,1);
-				
+					firesound.play();
+				}
 				//Fireball right up
-				if(players[0].direction[0] == 1 && players[0].direction[1] == -1)
+				if(players[0].direction[0] == 1 && players[0].direction[1] == -1){
 					players[0].fire("FBru.png","FBru1.png", players[0].direction,1);
-				
+					firesound.play();
+				}
 				//Fireball left up
-				if(players[0].direction[0] == -1 && players[0].direction[1] == -1)
+				if(players[0].direction[0] == -1 && players[0].direction[1] == -1){
 					players[0].fire("FBlu.png","FBlu1.png", players[0].direction,1);
+					firesound.play();
+				}
 				}
 				else if (players[0].activewep[0] == 0){
+					frostsound.play();
 					players[0].fire("sb.png", "sb1.png", players[0].direction,2);
 				}
 				
@@ -308,39 +338,56 @@ public class MainClass extends BasicGame  {
 			if (input.isKeyPressed(Input.KEY_SPACE)){
 				if(players[1].activewep[0] == 1){
 				//Fireball down
-				if(players[1].direction[0] == 0 && players[1].direction[1] == 1)
+				if(players[1].direction[0] == 0 && players[1].direction[1] == 1){
 				players[1].fire2("FBd.png","FBd1.png", players[1].direction,1);
+				firesound.play();
+				}
 												
 				//Fireball right down
-				if(players[1].direction[0] == 1 && players[1].direction[1] == 1)
+				if(players[1].direction[0] == 1 && players[1].direction[1] == 1){
 					players[1].fire2("FBrd.png","FBrd1.png", players[1].direction,1);
+					firesound.play();
+				}
 			
 				//Fireball right
-				if(players[1].direction[0] == 1 && players[1].direction[1] == 0)
+				if(players[1].direction[0] == 1 && players[1].direction[1] == 0){
 					players[1].fire2("FBr.png","FBr1.png", players[1].direction,1);
+					firesound.play();
+				}
 				
 				//Fireball left
-				if(players[1].direction[0] == -1 && players[1].direction[1] == 0)
+				if(players[1].direction[0] == -1 && players[1].direction[1] == 0){
 					players[1].fire2("FBl.png","FBl1.png", players[1].direction,1);
+					firesound.play();
+				}
 				
 				//Fireball left down
-				if(players[1].direction[0] == -1 && players[1].direction[1] == 1)
+				if(players[1].direction[0] == -1 && players[1].direction[1] == 1){
 					players[1].fire2("FBld.png","FBld1.png", players[1].direction,1);
+					firesound.play();
+				}
 				
 				//Fireball up
-				if(players[1].direction[0] == 0 && players[1].direction[1] == -1)
+				if(players[1].direction[0] == 0 && players[1].direction[1] == -1){
 					players[1].fire2("FBu.png","FBu1.png", players[1].direction,1);
+					firesound.play();
+				}
 				
 				//Fireball right up
-				if(players[1].direction[0] == 1 && players[1].direction[1] == -1)
+				if(players[1].direction[0] == 1 && players[1].direction[1] == -1){
 					players[1].fire2("FBru.png","FBru1.png", players[1].direction,1);
+					firesound.play();
+				}
 				
 				//Fireball left up
-				if(players[1].direction[0] == -1 && players[1].direction[1] == -1)
+				if(players[1].direction[0] == -1 && players[1].direction[1] == -1){
 					players[1].fire2("FBlu.png","FBlu1.png", players[1].direction,1);
+					firesound.play();
+				}
 				}									
 				else if(players[1].activewep[0] == 0){
 					players[1].fire2("sb.png", "sb1.png", players[1].direction,2);
+					frostsound.play();
 				}
 					
 			}
@@ -366,10 +413,12 @@ public class MainClass extends BasicGame  {
 			}
 			// AT DEATH
 			for (int i1 = 0; i1 < players.length; i1++){
-				if (players[i1].health < 1){
+				if (players[i1].health < 1 && players[i1].alive){
 					players[i1].active = players[i1].death;
 					players[i1].active.update(i);
 					players[i1].alive = false;
+					splat.play();
+				    deathSounds[i1].play();
 				} // moving player in keypressed direction, with current movement speed
 				players[i1].xPos += players[i1].direction[0] * players[i1].movementSpeed;
 				players[i1].yPos += players[i1].direction[1] * players[i1].movementSpeed;
@@ -517,11 +566,19 @@ public class MainClass extends BasicGame  {
 			for(int o = 0; o < ar.size(); o++){
 				if((ar.get(o).xPos + ar.get(o).width/2) > (p.xPos - p.width/2)  && (ar.get(o).xPos - ar.get(o).width/2) < (p.xPos + p.width/2) && (ar.get(o).yPos + ar.get(o).height/2) > (p.yPos - p.height/2) && (ar.get(o).yPos - ar.get(o).height/2) < (p.yPos + p.height/2)){
 					ar.get(o).collides = true;
+					if(ar.get(o).flameTimer == 0){
+						burn.play();
+					}
+					ar.get(o).flameTimer++;
+					if(ar.get(o).flameTimer > 78){
+						ar.get(o).flameTimer = 0;
+					}
 					p.movementSpeed = 4; // Movement speed is restored to default (Enable player to remove Weapon effect 2 slow)
 					//p.lifeloss(); // Run lifeloss method from player class
 				if(delta % 6 == 0)
 					p.health -=5;
 				}
+					
 				else {
 					ar.get(o).collides = false;
 					
@@ -550,10 +607,13 @@ public class MainClass extends BasicGame  {
 							if(players[1].movementSpeed > 2)
 							players[1].movementSpeed --;
 						players[1].health-=10;
+						snowballHit.play();
+						
 						}
 						
 					else if(projectiles.get(q).wepEffect == 1){ // Fireball deals 15 damage
 						players[1].health -= 15;
+						fireballHit.play();
 					
 					}
 						projectiles.remove(q);
@@ -608,10 +668,12 @@ public class MainClass extends BasicGame  {
 							if(players[0].movementSpeed > 2)
 							players[0].movementSpeed --;
 						players[0].health -= 5;
+						snowballHit.play();
 						
 					
 						}else if(projectiles2.get(d).wepEffect == 1){
 						players[0].health -= 10;
+						fireballHit.play();
 						
 						
 					}
@@ -629,6 +691,7 @@ public class MainClass extends BasicGame  {
 							ar.get(o).collides = true;
 							p.powerUp();
 							powerup.remove(o);
+							powerUp.play();
 							
 						}
 						else {

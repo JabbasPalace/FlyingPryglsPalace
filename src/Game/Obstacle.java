@@ -32,6 +32,7 @@ int[] dur={300,300};
 public int width = 34; 
 public int height = 73;
 public boolean collides = false;
+public int flameTimer = 0;
 
 Animation obst;
 
