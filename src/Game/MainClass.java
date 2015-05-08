@@ -109,6 +109,7 @@ public Sound[] deathSounds = new Sound[2];
 
 			BG = new Image("desertBG.png");
 			
+			//Sounds
 			firesound = new Sound("Fireballsound.wav");
 			frostsound = new Sound("Frostballsound.wav");
 			footstep = new Sound("footstep.wav");
