@@ -91,23 +91,23 @@ public Sound[] deathSounds = new Sound[2];
 		public void init(GameContainer gc) throws SlickException {
 
 			//Initial x and y positions and Sprites for animations assigned to players
-			players[0] = new Player(1100,730, new Image[] {new Image("wizHor.png"), new Image("wizHor2.png"),new Image("wiz.png"),new Image("wiz2.png"),new Image("b.png"),new Image("b1.png")});
+			players[0] = new Player(1100,730, new Image[] {new Image("data/wizHor.png"), new Image("data/wizHor2.png"),new Image("data/wiz.png"),new Image("data/wiz2.png"),new Image("data/b.png"),new Image("data/b1.png")});
 
-			players[1] = new Player(50, 120, new Image[]{new Image("wizaHor.png"), new Image("wizaHor2.png"),new Image("wiza.png"), new Image("wiza2.png"),new Image("b.png"),new Image("b1.png")});
+			players[1] = new Player(50, 120, new Image[]{new Image("data/wizaHor.png"), new Image("data/wizaHor2.png"),new Image("data/wiza.png"), new Image("data/wiza2.png"),new Image("data/b.png"),new Image("data/b1.png")});
 
-			BG = new Image("desertBG.png");
+			BG = new Image("data/desertBG.png");
 			
 			//Sounds
-			firesound = new Sound("Fireballsound.wav");
-			frostsound = new Sound("Frostballsound.wav");
-			footstep = new Sound("footstep.wav");
-			snowballHit = new Sound("snowballHit.wav");
-			fireballHit = new Sound("fireballHit.wav");
-			powerUp = new Sound("powerUp.wav");
-			burn = new Sound("burn.wav");
-			deathSounds[0] = new Sound("death1.wav");
-			deathSounds[1] = new Sound("death2.wav");
-			splat = new Sound("splat.wav");
+			firesound = new Sound("data/Fireballsound.wav");
+			frostsound = new Sound("data/Frostballsound.wav");
+			footstep = new Sound("data/footstep.wav");
+			snowballHit = new Sound("data/snowballHit.wav");
+			fireballHit = new Sound("data/fireballHit.wav");
+			powerUp = new Sound("data/powerUp.wav");
+			burn = new Sound("data/burn.wav");
+			deathSounds[0] = new Sound("data/death1.wav");
+			deathSounds[1] = new Sound("data/death2.wav");
+			splat = new Sound("data/splat.wav");
 		}
 
 		
@@ -118,7 +118,7 @@ public Sound[] deathSounds = new Sound[2];
 			
 			if(obstacles != null && obstacles.size() < 10){
 				
-				spawn("Fire.png","Fire1.png");
+				spawn("data/Fire.png","data/Fire1.png");
 				
 			}
 			
@@ -126,7 +126,7 @@ public Sound[] deathSounds = new Sound[2];
 			if(powerup.size() < 2){
 				
 				
-				spawn2("PowerUp.png", "PowerUp.png");
+				spawn2("data/PowerUp.png", "data/PowerUp.png");
 			}
 			
 	for (int k = 0; k < players.length; k++){
@@ -216,49 +216,49 @@ public Sound[] deathSounds = new Sound[2];
 				if(players[0].activewep[0] == 1){
 				//Fireball down
 				if(players[0].direction[0] == 0 && players[0].direction[1] == 1){
-				players[0].fire("FBd.png","FBd1.png", players[0].direction,1);
+				players[0].fire("data/FBd.png","data/FBd1.png", players[0].direction,1);
 				firesound.play();
 				}
 												
 				//Fireball right down
 				if(players[0].direction[0] == 1 && players[0].direction[1] == 1){
-					players[0].fire("FBrd.png","FBrd1.png", players[0].direction,1);
+					players[0].fire("data/FBrd.png","data/FBrd1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball right
 				if(players[0].direction[0] == 1 && players[0].direction[1] == 0){
-					players[0].fire("FBr.png","FBr1.png", players[0].direction,1);
+					players[0].fire("data/FBr.png","data/FBr1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball left
 				if(players[0].direction[0] == -1 && players[0].direction[1] == 0){
-					players[0].fire("FBl.png","FBl1.png", players[0].direction,1);
+					players[0].fire("data/FBl.png","data/FBl1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball left down
 				if(players[0].direction[0] == -1 && players[0].direction[1] == 1){
-					players[0].fire("FBld.png","FBld1.png", players[0].direction,1);
+					players[0].fire("data/FBld.png","data/FBld1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball up
 				if(players[0].direction[0] == 0 && players[0].direction[1] == -1){
-					players[0].fire("FBu.png","FBu1.png", players[0].direction,1);
+					players[0].fire("data/FBu.png","data/FBu1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball right up
 				if(players[0].direction[0] == 1 && players[0].direction[1] == -1){
-					players[0].fire("FBru.png","FBru1.png", players[0].direction,1);
+					players[0].fire("data/FBru.png","data/FBru1.png", players[0].direction,1);
 					firesound.play();
 				}
 				//Fireball left up
 				if(players[0].direction[0] == -1 && players[0].direction[1] == -1){
-					players[0].fire("FBlu.png","FBlu1.png", players[0].direction,1);
+					players[0].fire("data/FBlu.png","data/FBlu1.png", players[0].direction,1);
 					firesound.play();
 				}
 				}
 				else if (players[0].activewep[0] == 0){
 					frostsound.play();
-					players[0].fire("sb.png", "sb1.png", players[0].direction,2);
+					players[0].fire("data/sb.png", "data/sb1.png", players[0].direction,2);
 				}
 				
 					}
@@ -328,54 +328,54 @@ public Sound[] deathSounds = new Sound[2];
 				if(players[1].activewep[0] == 1){
 				//Fireball down
 				if(players[1].direction[0] == 0 && players[1].direction[1] == 1){
-				players[1].fire2("FBd.png","FBd1.png", players[1].direction,1);
+				players[1].fire2("data/FBd.png","data/FBd1.png", players[1].direction,1);
 				firesound.play();
 				}
 												
 				//Fireball right down
 				if(players[1].direction[0] == 1 && players[1].direction[1] == 1){
-					players[1].fire2("FBrd.png","FBrd1.png", players[1].direction,1);
+					players[1].fire2("data/FBrd.png","data/FBrd1.png", players[1].direction,1);
 					firesound.play();
 				}
 			
 				//Fireball right
 				if(players[1].direction[0] == 1 && players[1].direction[1] == 0){
-					players[1].fire2("FBr.png","FBr1.png", players[1].direction,1);
+					players[1].fire2("data/FBr.png","data/FBr1.png", players[1].direction,1);
 					firesound.play();
 				}
 				
 				//Fireball left
 				if(players[1].direction[0] == -1 && players[1].direction[1] == 0){
-					players[1].fire2("FBl.png","FBl1.png", players[1].direction,1);
+					players[1].fire2("data/FBl.png","data/FBl1.png", players[1].direction,1);
 					firesound.play();
 				}
 				
 				//Fireball left down
 				if(players[1].direction[0] == -1 && players[1].direction[1] == 1){
-					players[1].fire2("FBld.png","FBld1.png", players[1].direction,1);
+					players[1].fire2("data/FBld.png","data/FBld1.png", players[1].direction,1);
 					firesound.play();
 				}
 				
 				//Fireball up
 				if(players[1].direction[0] == 0 && players[1].direction[1] == -1){
-					players[1].fire2("FBu.png","FBu1.png", players[1].direction,1);
+					players[1].fire2("data/FBu.png","data/FBu1.png", players[1].direction,1);
 					firesound.play();
 				}
 				
 				//Fireball right up
 				if(players[1].direction[0] == 1 && players[1].direction[1] == -1){
-					players[1].fire2("FBru.png","FBru1.png", players[1].direction,1);
+					players[1].fire2("data/FBru.png","data/FBru1.png", players[1].direction,1);
 					firesound.play();
 				}
 				
 				//Fireball left up
 				if(players[1].direction[0] == -1 && players[1].direction[1] == -1){
-					players[1].fire2("FBlu.png","FBlu1.png", players[1].direction,1);
+					players[1].fire2("data/FBlu.png","data/FBlu1.png", players[1].direction,1);
 					firesound.play();
 				}
 				}									
 				else if(players[1].activewep[0] == 0){
-					players[1].fire2("sb.png", "sb1.png", players[1].direction,2);
+					players[1].fire2("data/sb.png", "data/sb1.png", players[1].direction,2);
 					frostsound.play();
 				}
 					
